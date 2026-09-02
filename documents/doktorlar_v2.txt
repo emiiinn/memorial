@@ -1,0 +1,572 @@
+==============================================================================
+                    HASTANE DOKTOR VERİ TABANI (TXT SETİ)
+                    Kayıt Tarihi: 29.07.2026
+                    Toplam Kayıt: 20 Doktor
+==============================================================================
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 74875198582
+AD SOYAD       : Prof. Dr. Sabri Ergene
+UZMANLIK ALANI : Kardiyoloji
+ÜNVAN (TITLE)  : Profesör / Bölüm Başkanı
+ŞUBE           : Başkent Yaşam Hastanesi (SB03)
+GÖREVE BAŞLAMA : 12.09.2002
+GÖREV SÜRESİ   : 23 yıl
+YILLIK İZİN    : 30 gün hak / 21 gün kullanıldı / 9 gün kaldı
+HAFTALIK NÖBET : 2
+POLİKLİNİK GÜN.: Pzt-Çar
+HASTA MEMNUN.  : %95
+E-POSTA        : ergene.dr01@hastane.com.tr
+TOPLAM İŞLEM   : 10
+YAPILAN İŞLEMLER (2026):
+   1. 21.01.2026 - Holter EKG Takibi
+   2. 23.01.2026 - Stent Yerleştirme
+   3. 04.03.2026 - Koroner Anjiyografi
+   4. 19.03.2026 - Kalp Pili Takılması
+   5. 15.04.2026 - Ablasyon
+   6. 22.04.2026 - Efor Testi
+   7. 09.05.2026 - Ablasyon
+   8. 10.05.2026 - Stent Yerleştirme
+   9. 25.05.2026 - Koroner Anjiyografi
+   10. 21.07.2026 - Ablasyon
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 93840654526
+AD SOYAD       : Doç. Dr. Nurgül Batur
+UZMANLIK ALANI : Genel Cerrahi
+ÜNVAN (TITLE)  : Doçent
+ŞUBE           : Ege Deniz Hastanesi (SB04)
+GÖREVE BAŞLAMA : 26.06.2010
+GÖREV SÜRESİ   : 16 yıl
+YILLIK İZİN    : 26 gün hak / 12 gün kullanıldı / 14 gün kaldı
+HAFTALIK NÖBET : 4
+POLİKLİNİK GÜN.: Sal-Cum
+HASTA MEMNUN.  : %90
+E-POSTA        : batur.dr02@hastane.com.tr
+TOPLAM İŞLEM   : 11
+YAPILAN İŞLEMLER (2026):
+   1. 13.01.2026 - Fıtık Onarımı
+   2. 18.01.2026 - Sleeve Gastrektomi
+   3. 01.02.2026 - Sleeve Gastrektomi
+   4. 07.03.2026 - Hemoroidektomi
+   5. 20.03.2026 - Fıtık Onarımı
+   6. 05.05.2026 - Hemoroidektomi
+   7. 17.05.2026 - Apandektomi
+   8. 18.05.2026 - Meme Kitle Eksizyonu
+   9. 26.05.2026 - Laparoskopik Kolesistektomi
+   10. 16.07.2026 - Apandektomi
+   11. 25.07.2026 - Sleeve Gastrektomi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 54965345652
+AD SOYAD       : Prof. Dr. Metin Çalışkan
+UZMANLIK ALANI : Ortopedi ve Travmatoloji
+ÜNVAN (TITLE)  : Profesör
+ŞUBE           : Anadolu Şifa Hastanesi (SB01)
+GÖREVE BAŞLAMA : 08.02.2001
+GÖREV SÜRESİ   : 25 yıl
+YILLIK İZİN    : 30 gün hak / 27 gün kullanıldı / 3 gün kaldı
+HAFTALIK NÖBET : 1
+POLİKLİNİK GÜN.: Çar-Per
+HASTA MEMNUN.  : %93
+E-POSTA        : caliskan.dr03@hastane.com.tr
+TOPLAM İŞLEM   : 13
+YAPILAN İŞLEMLER (2026):
+   1. 16.01.2026 - Omuz Artroskopisi
+   2. 04.02.2026 - Diz Protezi
+   3. 23.02.2026 - Kalça Protezi
+   4. 07.03.2026 - Kalça Protezi
+   5. 04.04.2026 - Halluks Valgus Cerrahisi
+   6. 15.04.2026 - Tendon Onarımı
+   7. 18.04.2026 - Tendon Onarımı
+   8. 22.05.2026 - Tendon Onarımı
+   9. 26.05.2026 - Diz Protezi
+   10. 09.06.2026 - Diz Protezi
+   11. 18.06.2026 - Diz Protezi
+   12. 13.07.2026 - Ön Çapraz Bağ Rekonstrüksiyonu
+   13. 21.07.2026 - Halluks Valgus Cerrahisi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 19337435904
+AD SOYAD       : Uzm. Dr. Perihan Sarıkaya
+UZMANLIK ALANI : Nöroloji
+ÜNVAN (TITLE)  : Uzman Doktor
+ŞUBE           : Uludağ Şifa Hastanesi (SB06)
+GÖREVE BAŞLAMA : 17.11.2017
+GÖREV SÜRESİ   : 8 yıl
+YILLIK İZİN    : 20 gün hak / 6 gün kullanıldı / 14 gün kaldı
+HAFTALIK NÖBET : 5
+POLİKLİNİK GÜN.: Pzt-Sal-Cum
+HASTA MEMNUN.  : %87
+E-POSTA        : sarikaya.dr04@hastane.com.tr
+TOPLAM İŞLEM   : 15
+YAPILAN İŞLEMLER (2026):
+   1. 10.01.2026 - Karotis Doppler
+   2. 28.01.2026 - Karotis Doppler
+   3. 05.02.2026 - Uyku Testi
+   4. 22.02.2026 - Karotis Doppler
+   5. 04.03.2026 - İnme Trombolizi
+   6. 10.03.2026 - İnme Trombolizi
+   7. 14.03.2026 - Lomber Ponksiyon
+   8. 12.04.2026 - Nörolojik Rehabilitasyon Planı
+   9. 25.04.2026 - EMG
+   10. 05.05.2026 - EMG
+   11. 06.05.2026 - EMG
+   12. 19.05.2026 - Nörolojik Rehabilitasyon Planı
+   13. 20.06.2026 - Migren Botoks Uygulaması
+   14. 22.06.2026 - Nörolojik Rehabilitasyon Planı
+   15. 27.06.2026 - İnme Trombolizi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 25422537774
+AD SOYAD       : Op. Dr. Uğur Menemencioğlu
+UZMANLIK ALANI : Beyin ve Sinir Cerrahisi
+ÜNVAN (TITLE)  : Operatör Doktor
+ŞUBE           : Başkent Yaşam Hastanesi (SB03)
+GÖREVE BAŞLAMA : 23.03.2012
+GÖREV SÜRESİ   : 14 yıl
+YILLIK İZİN    : 26 gün hak / 15 gün kullanıldı / 11 gün kaldı
+HAFTALIK NÖBET : 3
+POLİKLİNİK GÜN.: Sal-Per
+HASTA MEMNUN.  : %92
+E-POSTA        : menemencioglu.dr05@hastane.com.tr
+TOPLAM İŞLEM   : 13
+YAPILAN İŞLEMLER (2026):
+   1. 11.01.2026 - Disk Hernisi Operasyonu
+   2. 27.01.2026 - Kranioplasti
+   3. 12.02.2026 - Beyin Tümörü Rezeksiyonu
+   4. 14.02.2026 - Şant Takılması
+   5. 15.03.2026 - Kranioplasti
+   6. 22.03.2026 - Hipofiz Adenomu Cerrahisi
+   7. 02.04.2026 - Disk Hernisi Operasyonu
+   8. 16.04.2026 - Anevrizma Klipsleme
+   9. 14.05.2026 - Spinal Enstrümantasyon
+   10. 09.06.2026 - Kranioplasti
+   11. 12.06.2026 - Hipofiz Adenomu Cerrahisi
+   12. 24.06.2026 - Hipofiz Adenomu Cerrahisi
+   13. 17.07.2026 - Disk Hernisi Operasyonu
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 93014459780
+AD SOYAD       : Prof. Dr. Şermin Kavak
+UZMANLIK ALANI : Kadın Hastalıkları ve Doğum
+ÜNVAN (TITLE)  : Profesör
+ŞUBE           : Çukurova Medikal Merkezi (SB05)
+GÖREVE BAŞLAMA : 05.08.2005
+GÖREV SÜRESİ   : 20 yıl
+YILLIK İZİN    : 30 gün hak / 24 gün kullanıldı / 6 gün kaldı
+HAFTALIK NÖBET : 2
+POLİKLİNİK GÜN.: Pzt-Cum
+HASTA MEMNUN.  : %94
+E-POSTA        : kavak.dr06@hastane.com.tr
+TOPLAM İŞLEM   : 10
+YAPILAN İŞLEMLER (2026):
+   1. 28.01.2026 - Laparoskopik Kist Eksizyonu
+   2. 25.02.2026 - Tüp Bebek Transferi
+   3. 28.02.2026 - Kolposkopi
+   4. 07.03.2026 - Laparoskopik Kist Eksizyonu
+   5. 02.04.2026 - Histeroskopi
+   6. 21.04.2026 - Laparoskopik Kist Eksizyonu
+   7. 28.05.2026 - Normal Doğum
+   8. 19.06.2026 - Kolposkopi
+   9. 22.06.2026 - Miyomektomi
+   10. 03.07.2026 - Histerektomi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 43946105248
+AD SOYAD       : Doç. Dr. Bahadır Küçükoğlu
+UZMANLIK ALANI : Üroloji
+ÜNVAN (TITLE)  : Doçent
+ŞUBE           : Karadeniz Sağlık Kampüsü (SB08)
+GÖREVE BAŞLAMA : 14.01.2013
+GÖREV SÜRESİ   : 13 yıl
+YILLIK İZİN    : 24 gün hak / 9 gün kullanıldı / 15 gün kaldı
+HAFTALIK NÖBET : 3
+POLİKLİNİK GÜN.: Çar-Cmt
+HASTA MEMNUN.  : %88
+E-POSTA        : kucukoglu.dr07@hastane.com.tr
+TOPLAM İŞLEM   : 12
+YAPILAN İŞLEMLER (2026):
+   1. 08.01.2026 - Radikal Prostatektomi
+   2. 15.01.2026 - Varikosel Operasyonu
+   3. 05.02.2026 - TUR-P (Prostat Rezeksiyonu)
+   4. 01.03.2026 - Radikal Prostatektomi
+   5. 07.03.2026 - Üreterorenoskopi
+   6. 10.04.2026 - Varikosel Operasyonu
+   7. 16.04.2026 - Perkütan Nefrolitotomi
+   8. 17.04.2026 - Varikosel Operasyonu
+   9. 25.04.2026 - Üreterorenoskopi
+   10. 06.05.2026 - Varikosel Operasyonu
+   11. 14.06.2026 - Varikosel Operasyonu
+   12. 02.07.2026 - Üreterorenoskopi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 89843928450
+AD SOYAD       : Uzm. Dr. Zerrin Altunbaş
+UZMANLIK ALANI : Dahiliye (İç Hastalıkları)
+ÜNVAN (TITLE)  : Uzman Doktor
+ŞUBE           : Marmara Sağlık Merkezi (SB02)
+GÖREVE BAŞLAMA : 29.09.2018
+GÖREV SÜRESİ   : 7 yıl
+YILLIK İZİN    : 20 gün hak / 13 gün kullanıldı / 7 gün kaldı
+HAFTALIK NÖBET : 6
+POLİKLİNİK GÜN.: Pzt-Sal-Per
+HASTA MEMNUN.  : %85
+E-POSTA        : altunbas.dr08@hastane.com.tr
+TOPLAM İŞLEM   : 13
+YAPILAN İŞLEMLER (2026):
+   1. 20.01.2026 - Tiroid İnce İğne Aspirasyonu
+   2. 26.01.2026 - Kemik İliği Biyopsisi
+   3. 26.01.2026 - Diyabet Regülasyonu
+   4. 06.02.2026 - Anemi Tetkiki
+   5. 21.02.2026 - Kemik İliği Biyopsisi
+   6. 05.03.2026 - Kolonoskopi
+   7. 24.03.2026 - Hipertansiyon Takibi
+   8. 11.04.2026 - Kemik İliği Biyopsisi
+   9. 15.04.2026 - Kemik İliği Biyopsisi
+   10. 27.05.2026 - Kemik İliği Biyopsisi
+   11. 28.05.2026 - Kemik İliği Biyopsisi
+   12. 25.07.2026 - Anemi Tetkiki
+   13. 27.07.2026 - Kemik İliği Biyopsisi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 92299655962
+AD SOYAD       : Op. Dr. Fatih Sevindik
+UZMANLIK ALANI : Göz Hastalıkları
+ÜNVAN (TITLE)  : Operatör Doktor
+ŞUBE           : Akdeniz Hayat Hastanesi (SB07)
+GÖREVE BAŞLAMA : 11.07.2014
+GÖREV SÜRESİ   : 12 yıl
+YILLIK İZİN    : 24 gün hak / 18 gün kullanıldı / 6 gün kaldı
+HAFTALIK NÖBET : 2
+POLİKLİNİK GÜN.: Sal-Cum
+HASTA MEMNUN.  : %91
+E-POSTA        : sevindik.dr09@hastane.com.tr
+TOPLAM İŞLEM   : 12
+YAPILAN İŞLEMLER (2026):
+   1. 22.01.2026 - Pterjium Eksizyonu
+   2. 03.02.2026 - Şaşılık Ameliyatı
+   3. 11.02.2026 - Şaşılık Ameliyatı
+   4. 17.02.2026 - İntravitreal Enjeksiyon
+   5. 22.02.2026 - Şaşılık Ameliyatı
+   6. 25.03.2026 - Şaşılık Ameliyatı
+   7. 05.04.2026 - LASİK Refraktif Cerrahi
+   8. 18.04.2026 - Şaşılık Ameliyatı
+   9. 26.04.2026 - İntravitreal Enjeksiyon
+   10. 12.06.2026 - Retina Dekolmanı Operasyonu
+   11. 19.07.2026 - Retina Dekolmanı Operasyonu
+   12. 22.07.2026 - Pterjium Eksizyonu
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 55189437024
+AD SOYAD       : Prof. Dr. Leman Özkul
+UZMANLIK ALANI : Kulak Burun Boğaz (KBB)
+ÜNVAN (TITLE)  : Profesör
+ŞUBE           : Anadolu Şifa Hastanesi (SB01)
+GÖREVE BAŞLAMA : 19.04.2007
+GÖREV SÜRESİ   : 19 yıl
+YILLIK İZİN    : 30 gün hak / 10 gün kullanıldı / 20 gün kaldı
+HAFTALIK NÖBET : 1
+POLİKLİNİK GÜN.: Per-Cum
+HASTA MEMNUN.  : %89
+E-POSTA        : ozkul.dr10@hastane.com.tr
+TOPLAM İŞLEM   : 13
+YAPILAN İŞLEMLER (2026):
+   1. 13.01.2026 - Tonsillektomi
+   2. 15.01.2026 - Odyometri
+   3. 04.02.2026 - Timpanoplasti
+   4. 10.02.2026 - Tonsillektomi
+   5. 23.02.2026 - Timpanoplasti
+   6. 23.02.2026 - Timpanoplasti
+   7. 16.03.2026 - Rinoplasti
+   8. 24.03.2026 - Septoplasti
+   9. 14.04.2026 - Tonsillektomi
+   10. 20.04.2026 - Odyometri
+   11. 10.06.2026 - Sinüzit Endoskopik Cerrahisi
+   12. 17.06.2026 - Septoplasti
+   13. 10.07.2026 - Odyometri
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 70995980052
+AD SOYAD       : Uzm. Dr. Kerem Dalkıran
+UZMANLIK ALANI : Kardiyoloji
+ÜNVAN (TITLE)  : Uzman Doktor
+ŞUBE           : Kapadokya Özel Hastanesi (SB10)
+GÖREVE BAŞLAMA : 06.12.2019
+GÖREV SÜRESİ   : 6 yıl
+YILLIK İZİN    : 18 gün hak / 4 gün kullanıldı / 14 gün kaldı
+HAFTALIK NÖBET : 4
+POLİKLİNİK GÜN.: Pzt-Çar-Cmt
+HASTA MEMNUN.  : %83
+E-POSTA        : dalkiran.dr11@hastane.com.tr
+TOPLAM İŞLEM   : 9
+YAPILAN İŞLEMLER (2026):
+   1. 03.03.2026 - Efor Testi
+   2. 23.03.2026 - Stent Yerleştirme
+   3. 27.03.2026 - Koroner Anjiyografi
+   4. 15.04.2026 - Stent Yerleştirme
+   5. 01.05.2026 - Efor Testi
+   6. 06.05.2026 - Ekokardiyografi
+   7. 28.05.2026 - Ablasyon
+   8. 20.06.2026 - Ekokardiyografi
+   9. 16.07.2026 - Stent Yerleştirme
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 44261367946
+AD SOYAD       : Doç. Dr. Şeyma Bozdağ
+UZMANLIK ALANI : Genel Cerrahi
+ÜNVAN (TITLE)  : Doçent
+ŞUBE           : Fırat Medikal Hastanesi (SB09)
+GÖREVE BAŞLAMA : 21.02.2016
+GÖREV SÜRESİ   : 10 yıl
+YILLIK İZİN    : 22 gün hak / 17 gün kullanıldı / 5 gün kaldı
+HAFTALIK NÖBET : 3
+POLİKLİNİK GÜN.: Sal-Per
+HASTA MEMNUN.  : %86
+E-POSTA        : bozdag.dr12@hastane.com.tr
+TOPLAM İŞLEM   : 15
+YAPILAN İŞLEMLER (2026):
+   1. 25.01.2026 - Laparoskopik Kolesistektomi
+   2. 02.02.2026 - Kolon Rezeksiyonu
+   3. 26.02.2026 - Kolon Rezeksiyonu
+   4. 01.03.2026 - Sleeve Gastrektomi
+   5. 17.04.2026 - Fıtık Onarımı
+   6. 02.05.2026 - Hemoroidektomi
+   7. 19.05.2026 - Meme Kitle Eksizyonu
+   8. 03.06.2026 - Tiroidektomi
+   9. 08.06.2026 - Meme Kitle Eksizyonu
+   10. 19.06.2026 - Kolon Rezeksiyonu
+   11. 21.06.2026 - Fıtık Onarımı
+   12. 27.06.2026 - Meme Kitle Eksizyonu
+   13. 01.07.2026 - Fıtık Onarımı
+   14. 05.07.2026 - Apandektomi
+   15. 07.07.2026 - Apandektomi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 22389964520
+AD SOYAD       : Op. Dr. Arda Tunçel
+UZMANLIK ALANI : Ortopedi ve Travmatoloji
+ÜNVAN (TITLE)  : Operatör Doktor
+ŞUBE           : Çukurova Medikal Merkezi (SB05)
+GÖREVE BAŞLAMA : 03.05.2015
+GÖREV SÜRESİ   : 11 yıl
+YILLIK İZİN    : 24 gün hak / 8 gün kullanıldı / 16 gün kaldı
+HAFTALIK NÖBET : 5
+POLİKLİNİK GÜN.: Çar-Cum
+HASTA MEMNUN.  : %88
+E-POSTA        : tuncel.dr13@hastane.com.tr
+TOPLAM İŞLEM   : 14
+YAPILAN İŞLEMLER (2026):
+   1. 12.01.2026 - Diz Protezi
+   2. 06.02.2026 - Diz Protezi
+   3. 12.02.2026 - Kırık Redüksiyonu
+   4. 23.02.2026 - Ön Çapraz Bağ Rekonstrüksiyonu
+   5. 28.02.2026 - Kalça Protezi
+   6. 14.03.2026 - Kırık Redüksiyonu
+   7. 15.03.2026 - Kalça Protezi
+   8. 11.04.2026 - Kırık Redüksiyonu
+   9. 21.05.2026 - Ön Çapraz Bağ Rekonstrüksiyonu
+   10. 28.05.2026 - Diz Protezi
+   11. 11.06.2026 - Menisküs Artroskopisi
+   12. 15.06.2026 - Tendon Onarımı
+   13. 18.06.2026 - Halluks Valgus Cerrahisi
+   14. 19.06.2026 - Tendon Onarımı
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 88538987062
+AD SOYAD       : Uzm. Dr. Bengi Yalvaç
+UZMANLIK ALANI : Çocuk Sağlığı ve Hastalıkları
+ÜNVAN (TITLE)  : Uzman Doktor
+ŞUBE           : Marmara Sağlık Merkezi (SB02)
+GÖREVE BAŞLAMA : 15.10.2020
+GÖREV SÜRESİ   : 5 yıl
+YILLIK İZİN    : 18 gün hak / 3 gün kullanıldı / 15 gün kaldı
+HAFTALIK NÖBET : 6
+POLİKLİNİK GÜN.: Pzt-Per-Cmt
+HASTA MEMNUN.  : %92
+E-POSTA        : yalvac.dr14@hastane.com.tr
+TOPLAM İŞLEM   : 11
+YAPILAN İŞLEMLER (2026):
+   1. 11.02.2026 - Yenidoğan İzlemi
+   2. 16.02.2026 - Fototerapi Uygulaması
+   3. 06.03.2026 - Çocuk Astım Tedavisi
+   4. 25.03.2026 - Çocuk Astım Tedavisi
+   5. 07.04.2026 - Prematüre Takibi
+   6. 10.05.2026 - Alerji Testi
+   7. 22.05.2026 - Alerji Testi
+   8. 01.06.2026 - Büyüme Gelişme Takibi
+   9. 23.06.2026 - Yenidoğan İzlemi
+   10. 23.06.2026 - Fototerapi Uygulaması
+   11. 03.07.2026 - Yenidoğan İzlemi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 10890020910
+AD SOYAD       : Prof. Dr. Rıfat Sancaklı
+UZMANLIK ALANI : Gastroenteroloji
+ÜNVAN (TITLE)  : Profesör
+ŞUBE           : Uludağ Şifa Hastanesi (SB06)
+GÖREVE BAŞLAMA : 27.01.2004
+GÖREV SÜRESİ   : 22 yıl
+YILLIK İZİN    : 30 gün hak / 19 gün kullanıldı / 11 gün kaldı
+HAFTALIK NÖBET : 1
+POLİKLİNİK GÜN.: Sal-Cum
+HASTA MEMNUN.  : %90
+E-POSTA        : sancakli.dr15@hastane.com.tr
+TOPLAM İŞLEM   : 11
+YAPILAN İŞLEMLER (2026):
+   1. 11.01.2026 - Karaciğer Biyopsisi
+   2. 27.01.2026 - Manometri
+   3. 05.02.2026 - Polip Rezeksiyonu
+   4. 26.02.2026 - Manometri
+   5. 01.03.2026 - Varis Bandı Ligasyonu
+   6. 08.04.2026 - Varis Bandı Ligasyonu
+   7. 20.04.2026 - Karaciğer Biyopsisi
+   8. 08.05.2026 - Polip Rezeksiyonu
+   9. 10.05.2026 - Manometri
+   10. 20.06.2026 - Kapsül Endoskopi
+   11. 21.07.2026 - Kapsül Endoskopi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 73999211528
+AD SOYAD       : Uzm. Dr. Damla Kırıcı
+UZMANLIK ALANI : Dermatoloji (Cilt Hastalıkları)
+ÜNVAN (TITLE)  : Uzman Doktor
+ŞUBE           : Ege Deniz Hastanesi (SB04)
+GÖREVE BAŞLAMA : 09.06.2021
+GÖREV SÜRESİ   : 5 yıl
+YILLIK İZİN    : 18 gün hak / 7 gün kullanıldı / 11 gün kaldı
+HAFTALIK NÖBET : 2
+POLİKLİNİK GÜN.: Pzt-Çar-Per
+HASTA MEMNUN.  : %84
+E-POSTA        : kirici.dr16@hastane.com.tr
+TOPLAM İŞLEM   : 9
+YAPILAN İŞLEMLER (2026):
+   1. 11.01.2026 - Mezoterapi
+   2. 28.02.2026 - Lazer Epilasyon
+   3. 02.03.2026 - Fototerapi
+   4. 01.04.2026 - Lazer Epilasyon
+   5. 03.04.2026 - Cilt Lezyonu Eksizyonu
+   6. 06.05.2026 - Lazer Epilasyon
+   7. 19.05.2026 - Dermatoskopi
+   8. 25.06.2026 - Lazer Epilasyon
+   9. 14.07.2026 - Lazer Epilasyon
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 68853734060
+AD SOYAD       : Op. Dr. Sedat Güngören
+UZMANLIK ALANI : Kalp ve Damar Cerrahisi
+ÜNVAN (TITLE)  : Operatör Doktor
+ŞUBE           : Başkent Yaşam Hastanesi (SB03)
+GÖREVE BAŞLAMA : 30.11.2009
+GÖREV SÜRESİ   : 16 yıl
+YILLIK İZİN    : 26 gün hak / 22 gün kullanıldı / 4 gün kaldı
+HAFTALIK NÖBET : 3
+POLİKLİNİK GÜN.: Sal-Cmt
+HASTA MEMNUN.  : %93
+E-POSTA        : gungoren.dr17@hastane.com.tr
+TOPLAM İŞLEM   : 15
+YAPILAN İŞLEMLER (2026):
+   1. 19.01.2026 - Varis Operasyonu
+   2. 26.02.2026 - Karotis Endarterektomi
+   3. 03.03.2026 - Karotis Endarterektomi
+   4. 06.03.2026 - AV Fistül Açılması
+   5. 22.03.2026 - Bypass Ameliyatı (CABG)
+   6. 03.04.2026 - Bypass Ameliyatı (CABG)
+   7. 06.04.2026 - Aort Anevrizma Onarımı
+   8. 15.04.2026 - Kapak Replasmanı
+   9. 09.05.2026 - Varis Operasyonu
+   10. 23.05.2026 - AV Fistül Açılması
+   11. 14.06.2026 - AV Fistül Açılması
+   12. 03.07.2026 - Bypass Ameliyatı (CABG)
+   13. 05.07.2026 - AV Fistül Açılması
+   14. 14.07.2026 - Karotis Endarterektomi
+   15. 18.07.2026 - Varis Operasyonu
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 40690209482
+AD SOYAD       : Doç. Dr. Feyza Umutlu
+UZMANLIK ALANI : Göğüs Hastalıkları
+ÜNVAN (TITLE)  : Doçent
+ŞUBE           : Karadeniz Sağlık Kampüsü (SB08)
+GÖREVE BAŞLAMA : 18.03.2015
+GÖREV SÜRESİ   : 11 yıl
+YILLIK İZİN    : 24 gün hak / 11 gün kullanıldı / 13 gün kaldı
+HAFTALIK NÖBET : 4
+POLİKLİNİK GÜN.: Pzt-Cum
+HASTA MEMNUN.  : %87
+E-POSTA        : umutlu.dr18@hastane.com.tr
+TOPLAM İŞLEM   : 12
+YAPILAN İŞLEMLER (2026):
+   1. 07.01.2026 - KOAH Tedavi Planı
+   2. 28.01.2026 - KOAH Tedavi Planı
+   3. 17.02.2026 - Uyku Apnesi Tetkiki
+   4. 18.02.2026 - Uyku Apnesi Tetkiki
+   5. 03.04.2026 - Plevral Ponksiyon
+   6. 07.04.2026 - Uyku Apnesi Tetkiki
+   7. 11.04.2026 - Solunum Fonksiyon Testi
+   8. 21.04.2026 - Tüberküloz Takibi
+   9. 12.05.2026 - Uyku Apnesi Tetkiki
+   10. 26.05.2026 - Tüberküloz Takibi
+   11. 21.06.2026 - Plevral Ponksiyon
+   12. 28.06.2026 - Alerjik Astım Tedavisi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 87360289474
+AD SOYAD       : Uzm. Dr. Mert Bayraklı
+UZMANLIK ALANI : Anesteziyoloji ve Reanimasyon
+ÜNVAN (TITLE)  : Uzman Doktor
+ŞUBE           : Akdeniz Hayat Hastanesi (SB07)
+GÖREVE BAŞLAMA : 02.08.2017
+GÖREV SÜRESİ   : 9 yıl
+YILLIK İZİN    : 20 gün hak / 14 gün kullanıldı / 6 gün kaldı
+HAFTALIK NÖBET : 7
+POLİKLİNİK GÜN.: Nöbet Usulü
+HASTA MEMNUN.  : %86
+E-POSTA        : bayrakli.dr19@hastane.com.tr
+TOPLAM İŞLEM   : 10
+YAPILAN İŞLEMLER (2026):
+   1. 20.01.2026 - Spinal Anestezi
+   2. 01.03.2026 - Yoğun Bakım Sedasyonu
+   3. 18.03.2026 - Genel Anestezi Uygulaması
+   4. 13.04.2026 - Epidural Kateter Yerleştirme
+   5. 13.04.2026 - Yoğun Bakım Sedasyonu
+   6. 14.06.2026 - Ağrı Bloğu Uygulaması
+   7. 16.06.2026 - Genel Anestezi Uygulaması
+   8. 22.06.2026 - Epidural Kateter Yerleştirme
+   9. 11.07.2026 - Ağrı Bloğu Uygulaması
+   10. 26.07.2026 - Spinal Anestezi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 86146039524
+AD SOYAD       : Prof. Dr. Süheyla Öztaş
+UZMANLIK ALANI : Endokrinoloji
+ÜNVAN (TITLE)  : Profesör
+ŞUBE           : Kapadokya Özel Hastanesi (SB10)
+GÖREVE BAŞLAMA : 13.05.2006
+GÖREV SÜRESİ   : 20 yıl
+YILLIK İZİN    : 30 gün hak / 16 gün kullanıldı / 14 gün kaldı
+HAFTALIK NÖBET : 1
+POLİKLİNİK GÜN.: Çar-Per
+HASTA MEMNUN.  : %91
+E-POSTA        : oztas.dr20@hastane.com.tr
+TOPLAM İŞLEM   : 15
+YAPILAN İŞLEMLER (2026):
+   1. 21.01.2026 - İnsülin Pompası Ayarı
+   2. 24.02.2026 - İnsülin Pompası Ayarı
+   3. 07.03.2026 - Tiroid Ultrasonografisi
+   4. 11.03.2026 - Guatr Takibi
+   5. 22.03.2026 - Guatr Takibi
+   6. 03.04.2026 - Osteoporoz Tedavi Planı
+   7. 12.04.2026 - Osteoporoz Tedavi Planı
+   8. 13.04.2026 - Guatr Takibi
+   9. 11.05.2026 - Tiroid Ultrasonografisi
+   10. 04.06.2026 - İnsülin Pompası Ayarı
+   11. 08.06.2026 - Adrenal Fonksiyon Testi
+   12. 24.06.2026 - Osteoporoz Tedavi Planı
+   13. 25.06.2026 - Guatr Takibi
+   14. 07.07.2026 - Adrenal Fonksiyon Testi
+   15. 22.07.2026 - Obezite Tedavi Programı
+
+==============================================================================
+                          VERİ TABANI SONU
+==============================================================================

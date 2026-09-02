@@ -1,0 +1,482 @@
+==============================================================================
+                    HASTANE HASTA VERİ TABANI (TXT SETİ)
+                    Kayıt Tarihi: 29.07.2026
+                    Toplam Kayıt: 20 Hasta
+==============================================================================
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 66082506700
+AD SOYAD       : Osman Nuri Tekelioğlu
+YAŞ / CİNSİYET : 71 / Erkek
+KAN GRUBU      : B Rh+
+ŞUBE           : Başkent Yaşam Hastanesi (SB03)
+GİRİŞ TARİHİ   : 02.05.2026
+ÇIKIŞ TARİHİ   : 11.05.2026
+YATIŞ SÜRESİ   : 9 gün
+TANI           : Kalp Yetmezliği (NYHA III)
+SERVİS         : Kardiyoloji
+İLGİLENEN DR.  : Prof. Dr. Sabri Ergene
+ODA / YATAK    : K-408
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 274.300 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (5 adet):
+   1. Ekokardiyografi
+   2. Koroner Anjiyografi
+   3. Kalp Pili Takılması
+   4. Yoğun Bakım Takibi (3 gün)
+   5. Kardiyak Rehabilitasyon
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 31827179952
+AD SOYAD       : Rabia Sarıçam
+YAŞ / CİNSİYET : 39 / Kadın
+KAN GRUBU      : A Rh+
+ŞUBE           : Ege Deniz Hastanesi (SB04)
+GİRİŞ TARİHİ   : 14.05.2026
+ÇIKIŞ TARİHİ   : 18.05.2026
+YATIŞ SÜRESİ   : 4 gün
+TANI           : Safra Kesesi Taşı
+SERVİS         : Genel Cerrahi
+İLGİLENEN DR.  : Doç. Dr. Nurgül Batur
+ODA / YATAK    : C-217
+SİGORTA TÜRÜ   : Özel Sigorta
+TOPLAM FATURA  : 118.600 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (4 adet):
+   1. Laparoskopik Kolesistektomi
+   2. Batın Ultrasonu
+   3. Genel Anestezi
+   4. Postoperatif Takip
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 38714564884
+AD SOYAD       : Vedat Kuzucu
+YAŞ / CİNSİYET : 64 / Erkek
+KAN GRUBU      : 0 Rh+
+ŞUBE           : Anadolu Şifa Hastanesi (SB01)
+GİRİŞ TARİHİ   : 06.04.2026
+ÇIKIŞ TARİHİ   : 17.04.2026
+YATIŞ SÜRESİ   : 11 gün
+TANI           : Gonartroz (Diz Kireçlenmesi)
+SERVİS         : Ortopedi
+İLGİLENEN DR.  : Prof. Dr. Metin Çalışkan
+ODA / YATAK    : O-122
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 243.900 TL
+ÖDEME DURUMU   : Taksitlendirildi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (5 adet):
+   1. Diz Protezi Ameliyatı
+   2. Spinal Anestezi
+   3. Diz MR
+   4. Fizik Tedavi Seansı (8 seans)
+   5. Kontrol Röntgeni
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 88482387086
+AD SOYAD       : İnci Balaban
+YAŞ / CİNSİYET : 27 / Kadın
+KAN GRUBU      : AB Rh+
+ŞUBE           : Uludağ Şifa Hastanesi (SB06)
+GİRİŞ TARİHİ   : 21.05.2026
+ÇIKIŞ TARİHİ   : 23.05.2026
+YATIŞ SÜRESİ   : 2 gün
+TANI           : Epilepsi Şüphesi
+SERVİS         : Nöroloji
+İLGİLENEN DR.  : Uzm. Dr. Perihan Sarıkaya
+ODA / YATAK    : N-204
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 52.700 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (4 adet):
+   1. EEG İzlemi
+   2. Beyin MR
+   3. Lomber Ponksiyon
+   4. İlaç Tedavisi Düzenlemesi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 66047583784
+AD SOYAD       : Cemil Hocaoğlu
+YAŞ / CİNSİYET : 53 / Erkek
+KAN GRUBU      : A Rh-
+ŞUBE           : Başkent Yaşam Hastanesi (SB03)
+GİRİŞ TARİHİ   : 09.04.2026
+ÇIKIŞ TARİHİ   : 20.04.2026
+YATIŞ SÜRESİ   : 11 gün
+TANI           : Servikal Disk Hernisi (C5-C6)
+SERVİS         : Beyin ve Sinir Cerrahisi
+İLGİLENEN DR.  : Op. Dr. Uğur Menemencioğlu
+ODA / YATAK    : B-315
+SİGORTA TÜRÜ   : Özel Sigorta
+TOPLAM FATURA  : 298.400 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (6 adet):
+   1. Disk Hernisi Operasyonu
+   2. Spinal Enstrümantasyon
+   3. Genel Anestezi
+   4. Servikal MR
+   5. Yoğun Bakım Takibi (1 gün)
+   6. Fizik Tedavi Seansı (5 seans)
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 86279647054
+AD SOYAD       : Ayten Pamuk
+YAŞ / CİNSİYET : 33 / Kadın
+KAN GRUBU      : 0 Rh-
+ŞUBE           : Çukurova Medikal Merkezi (SB05)
+GİRİŞ TARİHİ   : 17.05.2026
+ÇIKIŞ TARİHİ   : 21.05.2026
+YATIŞ SÜRESİ   : 4 gün
+TANI           : Makat Geliş - Sezaryen Endikasyonu
+SERVİS         : Kadın Hastalıkları ve Doğum
+İLGİLENEN DR.  : Prof. Dr. Şermin Kavak
+ODA / YATAK    : D-119
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 96.800 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (5 adet):
+   1. Sezaryen
+   2. Spinal Anestezi
+   3. Yenidoğan İlk Muayenesi
+   4. Loğusa Takibi
+   5. Obstetrik Ultrason
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 59032918210
+AD SOYAD       : Mahir Sağlam
+YAŞ / CİNSİYET : 58 / Erkek
+KAN GRUBU      : B Rh-
+ŞUBE           : Karadeniz Sağlık Kampüsü (SB08)
+GİRİŞ TARİHİ   : 03.06.2026
+ÇIKIŞ TARİHİ   : 07.06.2026
+YATIŞ SÜRESİ   : 4 gün
+TANI           : Benign Prostat Hiperplazisi
+SERVİS         : Üroloji
+İLGİLENEN DR.  : Doç. Dr. Bahadır Küçükoğlu
+ODA / YATAK    : U-231
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 134.500 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (5 adet):
+   1. TUR-P (Prostat Rezeksiyonu)
+   2. Sistoskopi
+   3. Üroflowmetri
+   4. PSA Takibi
+   5. Genel Anestezi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 71010017074
+AD SOYAD       : Bilge Turgut
+YAŞ / CİNSİYET : 46 / Kadın
+KAN GRUBU      : A Rh+
+ŞUBE           : Marmara Sağlık Merkezi (SB02)
+GİRİŞ TARİHİ   : 11.06.2026
+ÇIKIŞ TARİHİ   : 13.06.2026
+YATIŞ SÜRESİ   : 2 gün
+TANI           : Tip 2 Diyabet + Hipertansiyon
+SERVİS         : Dahiliye
+İLGİLENEN DR.  : Uzm. Dr. Zerrin Altunbaş
+ODA / YATAK    : İ-140
+SİGORTA TÜRÜ   : Özel Sigorta
+TOPLAM FATURA  : 47.200 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (4 adet):
+   1. Diyabet Regülasyonu
+   2. Hipertansiyon Takibi
+   3. Gastroskopi
+   4. Kan Şekeri Profili
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 87407145848
+AD SOYAD       : Rıza Akgündüz
+YAŞ / CİNSİYET : 69 / Erkek
+KAN GRUBU      : 0 Rh+
+ŞUBE           : Akdeniz Hayat Hastanesi (SB07)
+GİRİŞ TARİHİ   : 25.05.2026
+ÇIKIŞ TARİHİ   : 26.05.2026
+YATIŞ SÜRESİ   : 1 gün
+TANI           : Senil Katarakt (Sağ Göz)
+SERVİS         : Göz Hastalıkları
+İLGİLENEN DR.  : Op. Dr. Fatih Sevindik
+ODA / YATAK    : G-107
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 64.800 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (4 adet):
+   1. Katarakt Ameliyatı
+   2. Göz İçi Lens Yerleştirme
+   3. Göz İçi Basınç Ölçümü
+   4. Biyometri
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 13575129632
+AD SOYAD       : Simge Erbil
+YAŞ / CİNSİYET : 19 / Kadın
+KAN GRUBU      : B Rh+
+ŞUBE           : Anadolu Şifa Hastanesi (SB01)
+GİRİŞ TARİHİ   : 08.06.2026
+ÇIKIŞ TARİHİ   : 11.06.2026
+YATIŞ SÜRESİ   : 3 gün
+TANI           : Kronik Tonsillit
+SERVİS         : Kulak Burun Boğaz
+İLGİLENEN DR.  : Prof. Dr. Leman Özkul
+ODA / YATAK    : K-226
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 71.300 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (4 adet):
+   1. Tonsillektomi
+   2. Adenoidektomi
+   3. Genel Anestezi
+   4. Kontrol Endoskopisi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 30476910268
+AD SOYAD       : Necmi Karagöz
+YAŞ / CİNSİYET : 61 / Erkek
+KAN GRUBU      : AB Rh-
+ŞUBE           : Kapadokya Özel Hastanesi (SB10)
+GİRİŞ TARİHİ   : 19.06.2026
+ÇIKIŞ TARİHİ   : 24.06.2026
+YATIŞ SÜRESİ   : 5 gün
+TANI           : Kararsız Anjina Pektoris
+SERVİS         : Kardiyoloji
+İLGİLENEN DR.  : Uzm. Dr. Kerem Dalkıran
+ODA / YATAK    : K-133
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 192.700 TL
+ÖDEME DURUMU   : Ödeme Bekliyor
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (5 adet):
+   1. Koroner Anjiyografi
+   2. Stent Yerleştirme
+   3. Efor Testi
+   4. Holter EKG Takibi
+   5. Yoğun Bakım Takibi (2 gün)
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 12458445722
+AD SOYAD       : Perran Yiğitalp
+YAŞ / CİNSİYET : 44 / Kadın
+KAN GRUBU      : A Rh+
+ŞUBE           : Fırat Medikal Hastanesi (SB09)
+GİRİŞ TARİHİ   : 12.05.2026
+ÇIKIŞ TARİHİ   : 16.05.2026
+YATIŞ SÜRESİ   : 4 gün
+TANI           : Multinodüler Guatr
+SERVİS         : Genel Cerrahi
+İLGİLENEN DR.  : Doç. Dr. Şeyma Bozdağ
+ODA / YATAK    : C-118
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 127.400 TL
+ÖDEME DURUMU   : Taksitlendirildi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (5 adet):
+   1. Tiroidektomi
+   2. Tiroid Ultrasonografisi
+   3. İnce İğne Aspirasyon Biyopsisi
+   4. Patoloji İncelemesi
+   5. Genel Anestezi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 75407005996
+AD SOYAD       : Tuncay Özsoy
+YAŞ / CİNSİYET : 35 / Erkek
+KAN GRUBU      : 0 Rh-
+ŞUBE           : Çukurova Medikal Merkezi (SB05)
+GİRİŞ TARİHİ   : 28.05.2026
+ÇIKIŞ TARİHİ   : 01.06.2026
+YATIŞ SÜRESİ   : 4 gün
+TANI           : Ön Çapraz Bağ Rüptürü
+SERVİS         : Ortopedi
+İLGİLENEN DR.  : Op. Dr. Arda Tunçel
+ODA / YATAK    : O-209
+SİGORTA TÜRÜ   : Özel Sigorta
+TOPLAM FATURA  : 158.200 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (4 adet):
+   1. Ön Çapraz Bağ Rekonstrüksiyonu
+   2. Menisküs Artroskopisi
+   3. Diz MR
+   4. Fizik Tedavi Seansı (6 seans)
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 14487242136
+AD SOYAD       : Bebek Demirsoy
+YAŞ / CİNSİYET : 0 / Kadın
+KAN GRUBU      : A Rh+
+ŞUBE           : Marmara Sağlık Merkezi (SB02)
+GİRİŞ TARİHİ   : 04.06.2026
+ÇIKIŞ TARİHİ   : 10.06.2026
+YATIŞ SÜRESİ   : 6 gün
+TANI           : Yenidoğan Sarılığı
+SERVİS         : Çocuk Sağlığı ve Hastalıkları
+İLGİLENEN DR.  : Uzm. Dr. Bengi Yalvaç
+ODA / YATAK    : Y-011
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 88.300 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (4 adet):
+   1. Fototerapi Uygulaması
+   2. Yenidoğan İzlemi
+   3. Bilirubin Takibi
+   4. Yenidoğan Tarama Testi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 19167789772
+AD SOYAD       : Şaban Kutlu
+YAŞ / CİNSİYET : 56 / Erkek
+KAN GRUBU      : B Rh+
+ŞUBE           : Uludağ Şifa Hastanesi (SB06)
+GİRİŞ TARİHİ   : 15.06.2026
+ÇIKIŞ TARİHİ   : 19.06.2026
+YATIŞ SÜRESİ   : 4 gün
+TANI           : Koledok Taşı
+SERVİS         : Gastroenteroloji
+İLGİLENEN DR.  : Prof. Dr. Rıfat Sancaklı
+ODA / YATAK    : İ-304
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 146.900 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (5 adet):
+   1. ERCP
+   2. Kolonoskopi
+   3. Karaciğer Biyopsisi
+   4. Sedasyon Uygulaması
+   5. Batın BT
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 24705304386
+AD SOYAD       : Neslihan Ayvaz
+YAŞ / CİNSİYET : 30 / Kadın
+KAN GRUBU      : 0 Rh+
+ŞUBE           : Ege Deniz Hastanesi (SB04)
+GİRİŞ TARİHİ   : 22.06.2026
+ÇIKIŞ TARİHİ   : 22.06.2026
+YATIŞ SÜRESİ   : 0 gün
+TANI           : Melanositik Nevüs
+SERVİS         : Dermatoloji
+İLGİLENEN DR.  : Uzm. Dr. Damla Kırıcı
+ODA / YATAK    : Günübirlik
+SİGORTA TÜRÜ   : Ücretli (Kendi)
+TOPLAM FATURA  : 18.400 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Günübirlik İşlem
+ALINAN HİZMETLER (4 adet):
+   1. Dermatoskopi
+   2. Cilt Lezyonu Eksizyonu
+   3. Punch Biyopsi
+   4. Patoloji İncelemesi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 51619265656
+AD SOYAD       : Fikret Bozkır
+YAŞ / CİNSİYET : 66 / Erkek
+KAN GRUBU      : A Rh-
+ŞUBE           : Başkent Yaşam Hastanesi (SB03)
+GİRİŞ TARİHİ   : 01.06.2026
+ÇIKIŞ TARİHİ   : 14.06.2026
+YATIŞ SÜRESİ   : 13 gün
+TANI           : Abdominal Aort Anevrizması
+SERVİS         : Kalp ve Damar Cerrahisi
+İLGİLENEN DR.  : Op. Dr. Sedat Güngören
+ODA / YATAK    : V-311
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 486.500 TL
+ÖDEME DURUMU   : Taksitlendirildi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (6 adet):
+   1. Aort Anevrizma Onarımı
+   2. BT Anjiyografi
+   3. Genel Anestezi
+   4. Yoğun Bakım Takibi (5 gün)
+   5. Kardiyak Rehabilitasyon
+   6. Kontrol Doppler
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 69374658064
+AD SOYAD       : Meral Sunar
+YAŞ / CİNSİYET : 52 / Kadın
+KAN GRUBU      : AB Rh+
+ŞUBE           : Karadeniz Sağlık Kampüsü (SB08)
+GİRİŞ TARİHİ   : 09.06.2026
+ÇIKIŞ TARİHİ   : 14.06.2026
+YATIŞ SÜRESİ   : 5 gün
+TANI           : KOAH Alevlenmesi
+SERVİS         : Göğüs Hastalıkları
+İLGİLENEN DR.  : Doç. Dr. Feyza Umutlu
+ODA / YATAK    : Gö-125
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 93.700 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Şifa ile Taburcu
+ALINAN HİZMETLER (5 adet):
+   1. Solunum Fonksiyon Testi
+   2. Bronkoskopi
+   3. KOAH Tedavi Planı
+   4. Toraks BT
+   5. Oksijen Tedavisi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 68857549158
+AD SOYAD       : Doğan Ceylan
+YAŞ / CİNSİYET : 41 / Erkek
+KAN GRUBU      : 0 Rh+
+ŞUBE           : Akdeniz Hayat Hastanesi (SB07)
+GİRİŞ TARİHİ   : 18.06.2026
+ÇIKIŞ TARİHİ   : 18.06.2026
+YATIŞ SÜRESİ   : 0 gün
+TANI           : Trigeminal Nevralji
+SERVİS         : Anesteziyoloji ve Algoloji
+İLGİLENEN DR.  : Uzm. Dr. Mert Bayraklı
+ODA / YATAK    : Günübirlik
+SİGORTA TÜRÜ   : Özel Sigorta
+TOPLAM FATURA  : 34.600 TL
+ÖDEME DURUMU   : Ödendi
+TABURCU DURUMU : Günübirlik İşlem
+ALINAN HİZMETLER (3 adet):
+   1. Ağrı Bloğu Uygulaması
+   2. Sedasyon Uygulaması
+   3. Nöral Terapi
+
+------------------------------------------------------------------------------
+TC KİMLİK NO   : 48988770652
+AD SOYAD       : Hüsniye Arıkan
+YAŞ / CİNSİYET : 59 / Kadın
+KAN GRUBU      : B Rh-
+ŞUBE           : Kapadokya Özel Hastanesi (SB10)
+GİRİŞ TARİHİ   : 05.06.2026
+ÇIKIŞ TARİHİ   : 12.06.2026
+YATIŞ SÜRESİ   : 7 gün
+TANI           : Hipertiroidi + Osteoporoz
+SERVİS         : Endokrinoloji
+İLGİLENEN DR.  : Prof. Dr. Süheyla Öztaş
+ODA / YATAK    : En-217
+SİGORTA TÜRÜ   : SGK
+TOPLAM FATURA  : 78.900 TL
+ÖDEME DURUMU   : Ödeme Bekliyor
+TABURCU DURUMU : Tedavi Devam Ediyor
+ALINAN HİZMETLER (5 adet):
+   1. Tiroid Ultrasonografisi
+   2. Guatr Takibi
+   3. Kemik Dansitometri
+   4. Osteoporoz Tedavi Planı
+   5. Hormon Profili
+
+==============================================================================
+TOPLAM FATURA TUTARI (20 HASTA) : 2.828.100 TL
+                          VERİ TABANI SONU
+==============================================================================

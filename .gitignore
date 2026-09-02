@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Üretilen / büyük dosyalar
+vector_db/
+_arsiv/
+*.db
+
+# Flutter / web build
+chatbot_web/build/
+chatbot_web/windows/
+chatbot_web/.dart_tool/
+
+# Loglar
+sorgu_loglari.log
+sorgu_loglari.jsonl
+
+# Editör / araçlar
+.vscode/
+.idea/
+.claude/

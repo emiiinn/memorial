@@ -1,0 +1,1556 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memorial RAG + SQL — Sistem Mimarisi</title>
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     TOKENS — iki kol = iki renk. SQL kolu Memorial kırmızısı,
+     RAG kolu arduvaz indigo. Renk dekorasyon değil, mimarideki
+     ayrımın kendisi.
+     ───────────────────────────────────────────────────────────── */
+  :root {
+    --paper:#FBF9F9; --surface:#FFFFFF; --surface-2:#F4F0F1;
+    --ink:#1A1416; --ink-soft:#574C50; --ink-faint:#8A7D81;
+    --rule:#E6DEDF; --rule-soft:#F0EAEB;
+    --sql:#B31E36; --sql-soft:#FBEEF0;
+    --rag:#3E5C88; --rag-soft:#EDF1F7;
+    --warn:#8A5A12; --warn-soft:#FBF3E6;
+    --shadow:0 1px 2px rgba(26,20,22,.05), 0 8px 24px -12px rgba(26,20,22,.14);
+
+    --display:"Segoe UI",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    --body:Charter,"Bitstream Charter","Iowan Old Style",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"Cascadia Mono","Cascadia Code",Consolas,"DejaVu Sans Mono",monospace;
+
+    --step--1:clamp(.78rem,.76rem + .12vw,.85rem);
+    --step-0:clamp(1rem,.97rem + .16vw,1.09rem);
+    --step-1:clamp(1.19rem,1.13rem + .3vw,1.4rem);
+    --step-2:clamp(1.5rem,1.38rem + .6vw,1.95rem);
+    --step-3:clamp(1.95rem,1.7rem + 1.2vw,2.9rem);
+    --step-4:clamp(2.5rem,2rem + 2.4vw,4.4rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:#151113; --surface:#1D1819; --surface-2:#241E20;
+      --ink:#EFE9EA; --ink-soft:#B4A8AC; --ink-faint:#857A7D;
+      --rule:#332B2D; --rule-soft:#262022;
+      --sql:#EE8296; --sql-soft:#2E1D21;
+      --rag:#96B0D6; --rag-soft:#1B222E;
+      --warn:#D9A863; --warn-soft:#2B2318;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#151113; --surface:#1D1819; --surface-2:#241E20;
+    --ink:#EFE9EA; --ink-soft:#B4A8AC; --ink-faint:#857A7D;
+    --rule:#332B2D; --rule-soft:#262022;
+    --sql:#EE8296; --sql-soft:#2E1D21;
+    --rag:#96B0D6; --rag-soft:#1B222E;
+    --warn:#D9A863; --warn-soft:#2B2318;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+  :root[data-theme="light"] {
+    --paper:#FBF9F9; --surface:#FFFFFF; --surface-2:#F4F0F1;
+    --ink:#1A1416; --ink-soft:#574C50; --ink-faint:#8A7D81;
+    --rule:#E6DEDF; --rule-soft:#F0EAEB;
+    --sql:#B31E36; --sql-soft:#FBEEF0;
+    --rag:#3E5C88; --rag-soft:#EDF1F7;
+    --warn:#8A5A12; --warn-soft:#FBF3E6;
+    --shadow:0 1px 2px rgba(26,20,22,.05), 0 8px 24px -12px rgba(26,20,22,.14);
+  }
+
+  /* ─── BASE ─────────────────────────────────────────────────── */
+  body { background:var(--paper); color:var(--ink); font-family:var(--body);
+         font-size:var(--step-0); line-height:1.68; -webkit-font-smoothing:antialiased;
+         overflow-x:hidden; }
+  .wrap { width:min(100% - 2.5rem, 64rem); margin-inline:auto; }
+  .col  { width:min(100%, 40rem); }
+  h1,h2,h3,h4 { font-family:var(--display); font-weight:700; line-height:1.12; text-wrap:balance; }
+  p { margin:0; }
+  strong { font-weight:700; color:var(--ink); }
+  a { color:inherit; }
+  :focus-visible { outline:2px solid var(--sql); outline-offset:3px; border-radius:2px; }
+
+  /* ─── COVER ────────────────────────────────────────────────── */
+  .cover { padding:clamp(3.5rem,9vw,7.5rem) 0 clamp(2.5rem,5vw,4rem); }
+  .cover-grid { display:flex; flex-direction:column; gap:2rem; }
+  .kicker { font-family:var(--mono); font-size:var(--step--1); letter-spacing:.14em;
+            text-transform:uppercase; color:var(--ink-faint);
+            display:flex; flex-wrap:wrap; gap:.5rem .9rem; align-items:baseline; }
+  .kicker .tag-sql { color:var(--sql); }
+  .kicker .tag-rag { color:var(--rag); }
+  .cover h1 { font-size:var(--step-4); letter-spacing:-.035em; margin:0; max-width:16ch; }
+  .cover h1 .split-sql { color:var(--sql); }
+  .cover h1 .split-rag { color:var(--rag); }
+  .lede { font-size:var(--step-1); color:var(--ink-soft); max-width:46ch; line-height:1.55; }
+
+  .facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
+           gap:1px; background:var(--rule); border:1px solid var(--rule);
+           border-radius:3px; overflow:hidden; margin-top:1rem; }
+  .fact { background:var(--surface); padding:1rem 1.1rem; display:flex; flex-direction:column; gap:.25rem; }
+  .fact dt { font-family:var(--mono); font-size:.68rem; letter-spacing:.12em;
+             text-transform:uppercase; color:var(--ink-faint); }
+  .fact dd { font-family:var(--display); font-weight:700; font-size:var(--step-1);
+             letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+  .fact dd small { font-family:var(--body); font-weight:400; font-size:.72em;
+                   color:var(--ink-soft); letter-spacing:0; }
+
+  /* ─── SECTIONS ─────────────────────────────────────────────── */
+  .band { padding:clamp(3rem,6vw,5.5rem) 0; border-top:1px solid var(--rule); }
+  .band--tint { background:var(--surface-2); }
+  .sec-head { display:flex; flex-direction:column; gap:.85rem; margin-bottom:2.2rem; }
+  .sec-num { font-family:var(--mono); font-size:var(--step--1); letter-spacing:.16em;
+             text-transform:uppercase; color:var(--ink-faint);
+             display:flex; align-items:center; gap:.7rem; }
+  .sec-num::after { content:""; height:1px; flex:1; background:var(--rule); max-width:7rem; }
+  .sec-num.is-sql { color:var(--sql); }
+  .sec-num.is-sql::after { background:var(--sql); opacity:.35; }
+  .sec-num.is-rag { color:var(--rag); }
+  .sec-num.is-rag::after { background:var(--rag); opacity:.35; }
+  .sec-head h2 { font-size:var(--step-3); letter-spacing:-.03em; max-width:20ch; }
+  .sec-head p { color:var(--ink-soft); max-width:54ch; font-size:var(--step-1); line-height:1.5; }
+
+  h3.sub { font-size:var(--step-1); letter-spacing:-.015em; margin-top:2.8rem;
+           margin-bottom:.7rem; display:flex; align-items:baseline; gap:.6rem; }
+  h3.sub .dot { width:.42rem; height:.42rem; border-radius:50%; background:var(--ink-faint);
+                flex:none; transform:translateY(-.15em); }
+  h3.sub.is-sql .dot { background:var(--sql); }
+  h3.sub.is-rag .dot { background:var(--rag); }
+  h4.mini { font-family:var(--mono); font-size:var(--step--1); font-weight:600;
+            letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint);
+            margin-top:2rem; margin-bottom:.6rem; }
+
+  .stack { display:flex; flex-direction:column; gap:1.15rem; }
+  ul.list, ol.list { margin:0; padding-left:1.35rem; display:flex; flex-direction:column; gap:.55rem; }
+  ul.list { list-style:none; padding-left:0; }
+  ul.list > li { position:relative; padding-left:1.35rem; }
+  ul.list > li::before { content:""; position:absolute; left:.2rem; top:.72em;
+                         width:.34rem; height:.34rem; border-radius:50%; background:var(--ink-faint); }
+  ol.list > li { padding-left:.3rem; }
+  ol.list > li::marker { font-family:var(--mono); font-size:.82em; color:var(--ink-faint); }
+
+  /* ─── FIGURES / DIAGRAMS ───────────────────────────────────── */
+  .fig { display:flex; flex-direction:column; gap:.75rem; margin-top:1.5rem; }
+  .fig-box { background:var(--surface); border:1px solid var(--rule); border-radius:3px;
+             padding:1.15rem 1.15rem 1rem; overflow-x:auto; box-shadow:var(--shadow); }
+  .fig-box svg { display:block; width:100%; height:auto; min-width:34rem; }
+  .fig-cap { font-size:.84rem; color:var(--ink-faint); line-height:1.5; max-width:52rem; }
+  .fig-cap b { color:var(--ink-soft); font-weight:700; }
+  .fig-ttl { font-family:var(--mono); font-size:.7rem; letter-spacing:.12em;
+             text-transform:uppercase; color:var(--ink-faint); margin-bottom:.9rem; }
+
+  /* SVG element sınıfları — tema değişkenlerini miras alır */
+  .db  { fill:var(--surface); stroke:var(--rule); stroke-width:1.5; }
+  .db-2{ fill:var(--surface-2); stroke:var(--rule); stroke-width:1.5; }
+  .db-s{ fill:var(--sql-soft); stroke:var(--sql); stroke-width:1.5; }
+  .db-r{ fill:var(--rag-soft); stroke:var(--rag); stroke-width:1.5; }
+  .db-w{ fill:var(--warn-soft); stroke:var(--warn); stroke-width:1.5; }
+  .db-d{ fill:none; stroke:var(--rule); stroke-width:1.5; stroke-dasharray:5 4; }
+  .dt  { fill:var(--ink); font-family:var(--mono); font-size:13px; font-weight:600; }
+  .dt-s{ fill:var(--sql); font-family:var(--mono); font-size:13px; font-weight:600; }
+  .dt-r{ fill:var(--rag); font-family:var(--mono); font-size:13px; font-weight:600; }
+  .ds  { fill:var(--ink-soft); font-family:var(--body); font-size:11.5px; }
+  .dk  { fill:var(--ink-faint); font-family:var(--mono); font-size:10px; letter-spacing:.09em; }
+  .dk-s{ fill:var(--sql); font-family:var(--mono); font-size:10px; letter-spacing:.09em; }
+  .dk-r{ fill:var(--rag); font-family:var(--mono); font-size:10px; letter-spacing:.09em; }
+  .dk-w{ fill:var(--warn); font-family:var(--mono); font-size:10px; letter-spacing:.09em; }
+  .dl  { stroke:var(--ink-faint); stroke-width:1.5; fill:none; }
+  .dl-s{ stroke:var(--sql); stroke-width:1.5; fill:none; }
+  .dl-r{ stroke:var(--rag); stroke-width:1.5; fill:none; }
+  .dl-d{ stroke:var(--ink-faint); stroke-width:1.3; fill:none; stroke-dasharray:5 4; opacity:.7; }
+  .dl-w{ stroke:var(--warn); stroke-width:1.5; fill:none; stroke-dasharray:5 4; }
+  .band-bg { fill:var(--surface-2); }
+
+  /* ─── CODE (nadiren) ───────────────────────────────────────── */
+  .code { background:var(--surface); border:1px solid var(--rule); border-radius:3px;
+          overflow:hidden; box-shadow:var(--shadow); }
+  .code-cap { font-family:var(--mono); font-size:.7rem; letter-spacing:.1em;
+              text-transform:uppercase; color:var(--ink-faint); padding:.55rem .95rem;
+              border-bottom:1px solid var(--rule-soft); background:var(--surface-2);
+              display:flex; justify-content:space-between; gap:1rem; align-items:center; }
+  .code-cap .where { opacity:.8; text-transform:none; letter-spacing:.04em; }
+  .code pre { margin:0; overflow-x:auto; padding:.95rem 1.05rem; }
+  .code code { font-family:var(--mono); font-size:.82rem; line-height:1.62;
+               white-space:pre; color:var(--ink); }
+  .code .c { color:var(--ink-faint); font-style:italic; }
+  .code .k { color:var(--sql); font-weight:600; }
+  .code .s { color:var(--rag); }
+  code.inl { font-family:var(--mono); font-size:.84em; background:var(--surface-2);
+             border:1px solid var(--rule-soft); border-radius:3px; padding:.08em .35em;
+             white-space:nowrap; }
+
+  /* ─── CALLOUTS ─────────────────────────────────────────────── */
+  .note { border-left:2px solid var(--ink-faint); padding:.1rem 0 .1rem 1.05rem;
+          color:var(--ink-soft); font-size:.95em; }
+  .note.is-sql { border-color:var(--sql); }
+  .note.is-rag { border-color:var(--rag); }
+  .note.is-warn{ border-color:var(--warn); }
+  .note b { color:var(--ink); }
+  .box { background:var(--surface); border:1px solid var(--rule); border-radius:3px;
+         padding:1.1rem 1.25rem; display:flex; flex-direction:column; gap:.6rem; }
+  .box-t { font-family:var(--display); font-weight:700; font-size:.96rem; letter-spacing:-.01em; }
+  .box p { font-size:.92rem; color:var(--ink-soft); }
+  .box.is-warn { background:var(--warn-soft); border-color:transparent; }
+  .box.is-warn .box-t { color:var(--warn); }
+  .box.is-sql { background:var(--sql-soft); border-color:transparent; }
+  .box.is-sql .box-t { color:var(--sql); }
+  .box.is-rag { background:var(--rag-soft); border-color:transparent; }
+  .box.is-rag .box-t { color:var(--rag); }
+
+  /* ─── TABLES ───────────────────────────────────────────────── */
+  .tbl-wrap { overflow-x:auto; border:1px solid var(--rule); border-radius:3px; background:var(--surface); }
+  table { border-collapse:collapse; width:100%; font-size:.88rem; }
+  th, td { text-align:left; padding:.6rem .85rem; border-bottom:1px solid var(--rule-soft); vertical-align:top; }
+  thead th { font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
+             color:var(--ink-faint); font-weight:600; background:var(--surface-2);
+             border-bottom:1px solid var(--rule); white-space:nowrap; }
+  tbody tr:last-child td { border-bottom:none; }
+  td.num { font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; }
+  td.mono, th.mono { font-family:var(--mono); font-size:.82em; }
+  .t-sql { color:var(--sql); font-weight:600; }
+  .t-rag { color:var(--rag); font-weight:600; }
+
+  /* ─── DUO ──────────────────────────────────────────────────── */
+  .duo { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--rule);
+         border:1px solid var(--rule); border-radius:3px; overflow:hidden; }
+  @media (max-width:40rem) { .duo { grid-template-columns:1fr; } }
+  .duo > div { background:var(--surface); padding:1.05rem 1.15rem;
+               display:flex; flex-direction:column; gap:.5rem; }
+  .duo h5 { font-family:var(--mono); font-size:.7rem; letter-spacing:.12em;
+            text-transform:uppercase; font-weight:600; }
+  .duo .d-sql h5 { color:var(--sql); }
+  .duo .d-rag h5 { color:var(--rag); }
+  .duo p { font-size:.89rem; color:var(--ink-soft); line-height:1.55; }
+
+  /* ─── FAIL CARDS ───────────────────────────────────────────── */
+  .fails { display:flex; flex-direction:column; gap:.8rem; }
+  .fail { display:grid; grid-template-columns:auto 1fr; gap:.3rem 1.1rem;
+          border:1px solid var(--rule); border-radius:3px; background:var(--surface);
+          padding:1rem 1.15rem; }
+  .fail .fn { font-family:var(--mono); font-size:1.5rem; font-weight:700; line-height:1;
+              color:var(--rule); grid-row:span 3; align-self:start; font-variant-numeric:tabular-nums; }
+  .fail .fq { font-family:var(--display); font-weight:700; font-size:.96rem; letter-spacing:-.01em; }
+  .fail .fw { font-size:.87rem; color:var(--ink-soft); }
+  .fail .ff { font-size:.87rem; color:var(--ink); }
+  .fail .ff b { color:var(--sql); }
+
+  /* ─── FILE CARDS ───────────────────────────────────────────── */
+  .files { display:grid; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); gap:.8rem; }
+  .file { border:1px solid var(--rule); border-radius:3px; background:var(--surface);
+          padding:1rem 1.1rem; display:flex; flex-direction:column; gap:.45rem; box-shadow:var(--shadow); }
+  .file .fname { font-family:var(--mono); font-size:.86rem; font-weight:600; word-break:break-all; }
+  .file .fmeta { font-family:var(--mono); font-size:.7rem; letter-spacing:.06em;
+                 color:var(--ink-faint); text-transform:uppercase; }
+  .file .fdesc { font-size:.86rem; color:var(--ink-soft); line-height:1.5; }
+  .file[data-arm="sql"] .fname { color:var(--sql); }
+  .file[data-arm="rag"] .fname { color:var(--rag); }
+
+  .lgnd { display:flex; flex-wrap:wrap; gap:.35rem 1.1rem; font-family:var(--mono);
+          font-size:.72rem; color:var(--ink-faint); margin-top:.2rem; }
+  .lgnd span { display:flex; align-items:center; gap:.4rem; }
+  .lgnd i { width:.9rem; height:3px; border-radius:2px; display:inline-block; }
+
+  .end { padding:clamp(3rem,6vw,5rem) 0 clamp(4rem,8vw,7rem); border-top:1px solid var(--rule); }
+  .end p { color:var(--ink-soft); max-width:50ch; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  }
+</style>
+
+<!-- ok uçları — bütün diyagramlar paylaşır -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink-faint)"/>
+    </marker>
+    <marker id="ahs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" style="fill:var(--sql)"/>
+    </marker>
+    <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" style="fill:var(--rag)"/>
+    </marker>
+    <marker id="ahw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" style="fill:var(--warn)"/>
+    </marker>
+  </defs>
+</svg>
+
+<style>
+  /* ─── reset (artifact iskeletinin yerine) ─── */
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; }
+  img, svg { max-width: 100%; height: auto; }
+
+  /* ─── tema anahtari ─── */
+  .theme-btn {
+    position: fixed; top: 1rem; right: 1rem; z-index: 50;
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-soft);
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 3px; padding: .45rem .7rem; cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .theme-btn:hover { color: var(--ink); }
+
+  /* ─── baski: her zaman acik tema, mürekkep israfi olmasin ─── */
+  @media print {
+    :root, :root[data-theme="dark"], :root[data-theme="light"] {
+      --paper: #FFFFFF; --surface: #FFFFFF; --surface-2: #F6F3F3;
+      --ink: #16110F; --ink-soft: #4A4245; --ink-faint: #7C7276;
+      --rule: #D8D0D1; --rule-soft: #ECE6E7;
+      --sql: #A01A30; --sql-soft: #FAEDEF;
+      --rag: #34507A; --rag-soft: #EDF1F7;
+      --warn: #7A4E0C; --warn-soft: #FAF2E4;
+      --shadow: none;
+    }
+    .theme-btn { display: none; }
+    .band { border-top: 1px solid var(--rule); page-break-before: auto; }
+    .code, .box, .fail, .file, .ent, .duo, .tbl-wrap, .facts, .node {
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .sec-head { break-after: avoid; page-break-after: avoid; }
+    h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
+    .code code { font-size: .74rem; }
+    @page { margin: 14mm 12mm; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-btn" id="temaBtn" type="button" aria-label="Açık / koyu tema değiştir">tema</button>
+<script>
+  (function () {
+    var kok = document.documentElement;
+    var btn = document.getElementById('temaBtn');
+    var kayitli = null;
+    try { kayitli = localStorage.getItem('sunum-tema'); } catch (e) {}
+    if (kayitli) { kok.setAttribute('data-theme', kayitli); }
+
+    btn.addEventListener('click', function () {
+      var suan = kok.getAttribute('data-theme');
+      if (!suan) {
+        var koyuMu = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        suan = koyuMu ? 'dark' : 'light';
+      }
+      var yeni = suan === 'dark' ? 'light' : 'dark';
+      kok.setAttribute('data-theme', yeni);
+      try { localStorage.setItem('sunum-tema', yeni); } catch (e) {}
+    });
+  })();
+</script>
+
+<!-- ═══════════════════════ KAPAK ═══════════════════════ -->
+<header class="cover">
+  <div class="wrap cover-grid">
+    <div class="kicker">
+      <span>Memorial Sağlık Grubu</span><span>·</span>
+      <span class="tag-sql">Text-to-SQL</span><span class="tag-rag">RAG</span>
+      <span>·</span><span>Yerel LLM / Ollama</span>
+    </div>
+    <h1>Bir soru, <span class="split-sql">iki</span> <span class="split-rag">yol</span>.</h1>
+    <p class="lede">
+      Hastane verisi iki farklı biçimde duruyor: sayılabilen kayıtlar ve okunabilen metinler.
+      Sistem ikisini ayrı ayrı hazırlıyor, gelen soruyu doğru olana yönlendiriyor,
+      cevabı tek arayüzden veriyor.
+    </p>
+    <dl class="facts">
+      <div class="fact"><dt>Kaynak dosya</dt><dd>5 <small>txt + xlsx</small></dd></div>
+      <div class="fact"><dt>Veritabanı</dt><dd>800 <small>satır / 6 tablo</small></dd></div>
+      <div class="fact"><dt>Vektör chunk</dt><dd>94 <small>parça</small></dd></div>
+      <div class="fact"><dt>Yerel model</dt><dd>3 <small>farklı görev</small></dd></div>
+      <div class="fact"><dt>Notebook</dt><dd>3 <small>+ FastAPI</small></dd></div>
+    </dl>
+  </div>
+</header>
+
+<!-- ═══════════════════════ 00 — MİMARİ ═══════════════════════ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num">00 — Mimari</div>
+      <h2>Sistem neden ikiye bölündü?</h2>
+      <p>Soruların hepsi aynı tür değil. Bu gözlem bütün mimariyi belirliyor.</p>
+    </div>
+
+    <div class="col stack">
+      <p>
+        <em>"Ortalama yatış süresi kaç gün?"</em> — bu soru <strong>bütün kayıtların taranmasını</strong>
+        gerektirir. Bir hesaplama işidir.
+      </p>
+      <p>
+        <em>"Dr. Alkan'ın uzmanlığı ne?"</em> — bu soru <strong>tek bir kaydın okunmasını</strong>
+        gerektirir. Bir arama işidir.
+      </p>
+      <div class="note">
+        Aynı motorla ikisini birden iyi yapmak mümkün değil. Bu yüzden veri
+        <b>iki kez, iki farklı amaç için</b> hazırlanıyor; önlerine bir yönlendirici konuyor.
+      </div>
+    </div>
+
+    <!-- ── FIG 1: hazırlık katmanı ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 1 — Hazırlık katmanı · veri değişmedikçe bir kez çalışır</div>
+        <svg viewBox="0 0 860 400" role="img" aria-label="Hazırlık hattı: documents klasöründen iki ayrı notebook ile veritabanı ve vektör deposu üretilir">
+          <rect class="db-2" x="300" y="18" width="260" height="70" rx="3"/>
+          <text class="dt" x="430" y="46" text-anchor="middle">documents/</text>
+          <text class="ds" x="430" y="66" text-anchor="middle">5 dosya · doktorlar, hastalar, şubeler</text>
+          <text class="ds" x="430" y="80" text-anchor="middle">aynı bilgi hem .txt hem .xlsx</text>
+
+          <path class="dl" d="M400,88 L400,120 L215,120 L215,152" marker-end="url(#ah)"/>
+          <path class="dl" d="M460,88 L460,120 L645,120 L645,152" marker-end="url(#ah)"/>
+
+          <rect class="db-s" x="60" y="152" width="310" height="106" rx="3"/>
+          <text class="dt-s" x="215" y="178" text-anchor="middle">create_sqlDB.ipynb</text>
+          <text class="ds" x="215" y="199" text-anchor="middle">oku → normalize et → eşle → yaz</text>
+          <text class="ds" x="215" y="217" text-anchor="middle">tek transaction, UPSERT</text>
+          <text class="ds" x="215" y="235" text-anchor="middle">8 adımlık doğrulama → BASARILI</text>
+          <text class="dk-s" x="215" y="252" text-anchor="middle">4 HÜCRE · MOTOR / ŞEMA / YAPILANDIRMA / EXECUTE</text>
+
+          <rect class="db-r" x="490" y="152" width="310" height="106" rx="3"/>
+          <text class="dt-r" x="645" y="178" text-anchor="middle">create_raq_vectorDB.ipynb</text>
+          <text class="ds" x="645" y="199" text-anchor="middle">ayrıştır → parçala → gömle → indeksle</text>
+          <text class="ds" x="645" y="217" text-anchor="middle">3 farklı parçalama stratejisi</text>
+          <text class="ds" x="645" y="235" text-anchor="middle">BAAI/bge-m3 · kosinüs benzerliği</text>
+          <text class="dk-r" x="645" y="252" text-anchor="middle">8 HÜCRE · DOĞRUSAL HAT</text>
+
+          <path class="dl-s" d="M215,258 L215,300" marker-end="url(#ahs)"/>
+          <path class="dl-r" d="M645,258 L645,300" marker-end="url(#ahr)"/>
+
+          <rect class="db" x="95" y="300" width="240" height="76" rx="3"/>
+          <text class="dt-s" x="215" y="326" text-anchor="middle">hastane_v2.db</text>
+          <text class="ds" x="215" y="346" text-anchor="middle">6 tablo + 2 view · 800 satır</text>
+          <text class="dk" x="215" y="364" text-anchor="middle">SQLITE · 128 KB</text>
+
+          <rect class="db" x="525" y="300" width="240" height="76" rx="3"/>
+          <text class="dt-r" x="645" y="326" text-anchor="middle">vector_db/ + chunks.jsonl</text>
+          <text class="ds" x="645" y="346" text-anchor="middle">94 parça · 1024 boyutlu vektör</text>
+          <text class="dk" x="645" y="364" text-anchor="middle">CHROMA · ~2.4 MB</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        <b>Dikkat:</b> iki hat aynı kaynaktan besleniyor ama birbirinden tamamen bağımsız.
+        Biri veriyi <b>sayılmak</b>, diğeri <b>okunmak</b> için hazırlıyor.
+      </p>
+    </div>
+
+    <!-- ── FIG 2: çalışma zamanı ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 2 — Çalışma zamanı · her soruda devrede</div>
+        <svg viewBox="0 0 860 470" role="img" aria-label="Çalışma zamanı: soru router'a gider, SQL veya RAG koluna dağıtılır, sonuç biçimlendirilip API'den döner">
+          <rect class="db-2" x="350" y="14" width="160" height="46" rx="3"/>
+          <text class="dt" x="430" y="42" text-anchor="middle">soru</text>
+
+          <path class="dl" d="M430,60 L430,96" marker-end="url(#ah)"/>
+
+          <rect class="db-w" x="315" y="96" width="230" height="70" rx="3"/>
+          <text class="dt" x="430" y="122" text-anchor="middle">route(soru)</text>
+          <text class="ds" x="430" y="142" text-anchor="middle">cache → kural → LLM</text>
+          <text class="dk-w" x="430" y="159" text-anchor="middle">YALNIZCA ETİKET ÜRETİR</text>
+
+          <path class="dl-s" d="M340,166 L200,166 L200,214" marker-end="url(#ahs)"/>
+          <text class="dk-s" x="228" y="192">SQL</text>
+          <path class="dl-r" d="M520,166 L660,166 L660,214" marker-end="url(#ahr)"/>
+          <text class="dk-r" x="608" y="192">RAG</text>
+
+          <rect class="db-s" x="60" y="214" width="280" height="82" rx="3"/>
+          <text class="dt-s" x="200" y="240" text-anchor="middle">sql_cevapla()</text>
+          <text class="ds" x="200" y="260" text-anchor="middle">CodeAgent · qwen2.5-coder:7b</text>
+          <text class="ds" x="200" y="278" text-anchor="middle">şemayı okur, SQL yazar, çalıştırır</text>
+
+          <rect class="db-r" x="520" y="214" width="280" height="82" rx="3"/>
+          <text class="dt-r" x="660" y="240" text-anchor="middle">answer_question()</text>
+          <text class="ds" x="660" y="260" text-anchor="middle">retrieve + qwen3:8b</text>
+          <text class="ds" x="660" y="278" text-anchor="middle">en yakın 5 parçayı bağlam yapar</text>
+
+          <path class="dl-s" d="M120,296 L120,338" marker-end="url(#ahs)"/>
+          <path class="dl-s" d="M150,338 L150,296" marker-end="url(#ahs)"/>
+          <rect class="db" x="60" y="338" width="280" height="54" rx="3"/>
+          <text class="dt-s" x="200" y="362" text-anchor="middle">hastane_v2.db</text>
+          <text class="dk" x="200" y="380" text-anchor="middle">MODE=RO · SALT OKUNUR</text>
+
+          <path class="dl-r" d="M740,296 L740,338" marker-end="url(#ahr)"/>
+          <path class="dl-r" d="M710,338 L710,296" marker-end="url(#ahr)"/>
+          <rect class="db" x="520" y="338" width="280" height="54" rx="3"/>
+          <text class="dt-r" x="660" y="362" text-anchor="middle">vector_db/</text>
+          <text class="dk" x="660" y="380" text-anchor="middle">TOP-5 · KOSİNÜS</text>
+
+          <path class="dl" d="M290,296 L380,296 L380,338" marker-end="url(#ah)"/>
+          <path class="dl" d="M570,296 L480,296 L480,338" marker-end="url(#ah)"/>
+
+          <rect class="db-2" x="360" y="338" width="140" height="54" rx="3"/>
+          <text class="dt" x="430" y="360" text-anchor="middle">_format_cevap</text>
+          <text class="dk" x="430" y="378" text-anchor="middle">TEK BİÇİM</text>
+
+          <path class="dl" d="M430,392 L430,420" marker-end="url(#ah)"/>
+          <rect class="db-2" x="330" y="420" width="200" height="44" rx="3"/>
+          <text class="dt" x="430" y="447" text-anchor="middle">FastAPI /sor</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        Router <b>işi yapmaz</b>, yalnızca etiket üretir. İki kol farklı türde sonuç döndürdüğü için
+        (biri sözlük listesi, diğeri düz metin) araya bir biçimlendirme katmanı giriyor — arayüz
+        her iki durumda da aynı şeyi alıyor.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 01 — KAYNAK VERİ ═══════════════════════ -->
+<section class="band band--tint">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num">01 — Kaynak veri</div>
+      <h2>Aynı bilgi, iki farklı biçim</h2>
+      <p>Veri hattı mimarisinin neden bu kadar katmanlı olduğunun cevabı burada.</p>
+    </div>
+
+    <div class="duo">
+      <div class="d-sql">
+        <h5>doktorlar_v2.txt</h5>
+        <p>Bloklar <code class="inl">-----</code> satırlarıyla ayrılmış, alanlar <code class="inl">ETİKET : değer</code> biçiminde.
+        İzin bilgisi <strong>tek satırda cümle</strong>:</p>
+        <p style="font-family:var(--mono);font-size:.78rem;color:var(--ink)">"30 gün hak / 21 gün kullanıldı / 9 gün kaldı"</p>
+      </div>
+      <div class="d-rag">
+        <h5>doktorlar_v2.xlsx</h5>
+        <p>Klasik tablo, her alan ayrı sütun. Aynı izin bilgisi burada <strong>zaten üç sütun</strong>:</p>
+        <p style="font-family:var(--mono);font-size:.78rem;color:var(--ink)">Yıllık İzin Hakkı | Kullanılan İzin | Kalan İzin</p>
+      </div>
+    </div>
+
+    <div class="col stack" style="margin-top:1.5rem">
+      <div class="box is-warn">
+        <div class="box-t">Buradan çıkan mimari karar</div>
+        <p>
+          Dosya başına ayrı script yazmak yerine, <strong>"hangi dosya nereye, nasıl"</strong> bilgisi
+          motordan ayrı bir yapılandırma katmanına alındı. Motor sabit; yeni dosya geldiğinde
+          yalnızca bir <em>kayıt satırı</em> ekleniyor.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 02 — VERİ HATTI ═══════════════════════ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num is-sql">02 — Veri hattı</div>
+      <h2>Kirli dosyadan temiz tabloya</h2>
+      <p>create_sqlDB.ipynb'nin mimarisi: tek bir döngü, dışarıdan beslenen yapılandırma.</p>
+    </div>
+
+    <!-- ── FIG 3: hat ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 3 — Yükleme hattı · registry satırı başına bir tur</div>
+        <svg viewBox="0 0 860 300" role="img" aria-label="Yükleme hattı: registry, okuyucu, eşleme, yazıcı, veritabanı">
+          <rect class="db-2" x="10" y="40" width="140" height="76" rx="3"/>
+          <text class="dt" x="80" y="66" text-anchor="middle">KAYNAKLAR</text>
+          <text class="ds" x="80" y="86" text-anchor="middle">registry satırı</text>
+          <text class="ds" x="80" y="103" text-anchor="middle">dosya · hedef · spec</text>
+
+          <path class="dl" d="M150,78 L186,78" marker-end="url(#ah)"/>
+
+          <rect class="db" x="188" y="40" width="140" height="76" rx="3"/>
+          <text class="dt" x="258" y="66" text-anchor="middle">OKUYUCULAR</text>
+          <text class="ds" x="258" y="86" text-anchor="middle">txt_oku / excel_oku</text>
+          <text class="dk" x="258" y="104" text-anchor="middle">ORTAK SÖZLEŞME</text>
+
+          <path class="dl" d="M328,78 L364,78" marker-end="url(#ah)"/>
+
+          <rect class="db-w" x="366" y="40" width="140" height="76" rx="3"/>
+          <text class="dt" x="436" y="66" text-anchor="middle">uygula()</text>
+          <text class="ds" x="436" y="86" text-anchor="middle">ham → kanonik</text>
+          <text class="dk-w" x="436" y="104" text-anchor="middle">3 KATMAN</text>
+
+          <path class="dl" d="M506,78 L542,78" marker-end="url(#ah)"/>
+
+          <rect class="db" x="544" y="40" width="140" height="76" rx="3"/>
+          <text class="dt" x="614" y="66" text-anchor="middle">YAZICILAR</text>
+          <text class="ds" x="614" y="86" text-anchor="middle">FK çöz · UPSERT</text>
+          <text class="ds" x="614" y="103" text-anchor="middle">çocuk sil-yaz</text>
+
+          <path class="dl" d="M684,78 L720,78" marker-end="url(#ah)"/>
+
+          <rect class="db-s" x="722" y="40" width="130" height="76" rx="3"/>
+          <text class="dt-s" x="787" y="72" text-anchor="middle">SQLite</text>
+          <text class="ds" x="787" y="92" text-anchor="middle">tek transaction</text>
+          <text class="dk-s" x="787" y="109" text-anchor="middle">COMMIT EN SONDA</text>
+
+          <path class="dl-d" d="M258,116 L258,180 L400,180" marker-end="url(#ah)"/>
+          <path class="dl-d" d="M614,116 L614,180 L500,180" marker-end="url(#ah)"/>
+          <rect class="db-d" x="400" y="158" width="100" height="44" rx="3"/>
+          <text class="dk" x="450" y="176" text-anchor="middle">RAPOR</text>
+          <text class="ds" x="450" y="193" text-anchor="middle">5 hata kanalı</text>
+
+          <rect class="db-d" x="10" y="230" width="842" height="56" rx="3"/>
+          <text class="dk" x="30" y="252">HATA DURUMU</text>
+          <text class="ds" x="30" y="272">Ortada hata olursa rollback → yarım veritabanı oluşmaz. Hata yukarı fırlatılır, EXECUTE hücresi yakalar ve BASARILI bayrağını False yapar.</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        <b>Okuyucuların ortak sözleşmesi:</b> ikisi de <em>{kaynağın kendi sütun adı: değer}</em>
+        sözlüklerinden oluşan liste döner. Okuma biçimi farklı, çıktı biçimi aynı — bu yüzden
+        hattın geri kalanı formatı hiç bilmez.
+      </p>
+    </div>
+
+    <h3 class="sub is-sql"><span class="dot"></span>Üç katmanlı eşleme</h3>
+
+    <div class="col stack">
+      <p>
+        Mimarinin kalbi burası. İki farklı kaynak, aynı kanonik kayda dönüşüyor —
+        ve her katman <strong>farklı bir uyumsuzluk türünü</strong> çözüyor.
+      </p>
+    </div>
+
+    <!-- ── FIG 4: eşleme ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 4 — İki kaynak, tek kanonik kayıt</div>
+        <svg viewBox="0 0 860 430" role="img" aria-label="Üç katmanlı eşleme: txt ve xlsx kaynakları ad değişimi, dönüşüm ve türetme katmanlarından geçip aynı kanonik kayda dönüşür">
+          <rect class="db-2" x="40" y="14" width="310" height="86" rx="3"/>
+          <text class="dk" x="60" y="36">DOKTORLAR_V2.TXT</text>
+          <text class="ds" x="60" y="58">"GÖREV SÜRESİ   : 23 yıl"</text>
+          <text class="ds" x="60" y="76">"YILLIK İZİN : 30 gün hak / 21 gün</text>
+          <text class="ds" x="60" y="92">&#160;kullanıldı / 9 gün kaldı"</text>
+
+          <rect class="db-2" x="510" y="14" width="310" height="86" rx="3"/>
+          <text class="dk" x="530" y="36">DOKTORLAR_V2.XLSX</text>
+          <text class="ds" x="530" y="58">"Görev Süresi (Yıl)" → 23 (int64)</text>
+          <text class="ds" x="530" y="76">"Yıllık İzin Hakkı (Gün)" → 30</text>
+          <text class="ds" x="530" y="92">"Kalan İzin (Gün)" → 9</text>
+
+          <path class="dl" d="M195,100 L195,140" marker-end="url(#ah)"/>
+          <text class="dk" x="205" y="124">SPEC_DOKTOR_TXT</text>
+          <path class="dl" d="M665,100 L665,140" marker-end="url(#ah)"/>
+          <text class="dk" x="675" y="124">SPEC_DOKTOR_XLS</text>
+
+          <rect class="db-w" x="40" y="140" width="780" height="150" rx="3"/>
+          <text class="dk-w" x="60" y="163">uygula() — ÜÇ KATMAN, SIRAYLA</text>
+
+          <rect class="db" x="62" y="176" width="240" height="96" rx="3"/>
+          <text class="dt" x="182" y="199" text-anchor="middle">1 · alanlar</text>
+          <text class="ds" x="182" y="219" text-anchor="middle">sütun ADINI değiştirir</text>
+          <text class="ds" x="182" y="240" text-anchor="middle">"Uzmanlık Alanı" → uzmanlik</text>
+          <text class="dk" x="182" y="260" text-anchor="middle">SOL DEĞİŞİR · SAĞ SABİT</text>
+
+          <rect class="db" x="310" y="176" width="240" height="96" rx="3"/>
+          <text class="dt" x="430" y="199" text-anchor="middle">2 · dönüşüm</text>
+          <text class="ds" x="430" y="219" text-anchor="middle">DEĞERİ normalize eder</text>
+          <text class="ds" x="430" y="240" text-anchor="middle">"23 yıl" → 23 · "148.500 TL" → 148500.0</text>
+          <text class="dk" x="430" y="260" text-anchor="middle">HAM DEĞER GİDER, METİN DEĞİL</text>
+
+          <rect class="db" x="558" y="176" width="240" height="96" rx="3"/>
+          <text class="dt" x="678" y="199" text-anchor="middle">3 · türetme</text>
+          <text class="ds" x="678" y="219" text-anchor="middle">1 alandan N alan üretir</text>
+          <text class="ds" x="678" y="240" text-anchor="middle">"YILLIK İZİN" → 3 sütun</text>
+          <text class="dk" x="678" y="260" text-anchor="middle">YALNIZCA TXT'DE GEREKLİ</text>
+
+          <path class="dl" d="M195,290 L195,318 L430,318 L430,344" marker-end="url(#ah)"/>
+          <path class="dl" d="M665,290 L665,318 L430,318" />
+
+          <rect class="db-s" x="250" y="344" width="360" height="70" rx="3"/>
+          <text class="dt-s" x="430" y="368" text-anchor="middle">kanonik kayıt</text>
+          <text class="ds" x="430" y="388" text-anchor="middle">{gorev_yil: 23, izin_hakki: 30, izin_kalan: 9, ...}</text>
+          <text class="dk-s" x="430" y="405" text-anchor="middle">→ DOKTORLAR TABLOSU</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        Excel'de izin bilgisi zaten üç sütun olduğu için <b>o hatta türetme katmanı hiç çalışmaz</b>.
+        Aynı motor, farklı kaynaklara farklı sayıda katman uyguluyor — fark yapılandırmada, kodda değil.
+      </p>
+    </div>
+
+    <div class="col stack" style="margin-top:1.6rem">
+      <h4 class="mini">Bir yapılandırma kaydının anatomisi</h4>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Anahtar</th><th>Ne yapar</th><th>Örnek</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">okuyucu</td><td>Hangi okuyucu çalışacak</td><td class="mono">"txt" | "excel"</td></tr>
+            <tr><td class="mono">zorunlu</td><td>Bu alan boş olan kayıt atılır</td><td class="mono">"TC KİMLİK NO"</td></tr>
+            <tr><td class="mono">alanlar</td><td>Katman 1 — ad eşlemesi</td><td class="mono">{"Ad Soyad": "ad_soyad"}</td></tr>
+            <tr><td class="mono">donusum</td><td>Katman 2 — değer normalizasyonu</td><td class="mono">{"fatura": para}</td></tr>
+            <tr><td class="mono">turetme</td><td>Katman 3 — 1 alandan N alan</td><td class="mono">turet_doktor_txt</td></tr>
+            <tr><td class="mono">cocuk</td><td>Alt tablo satırları</td><td class="mono">islem_txt</td></tr>
+            <tr><td class="mono">atla</td><td>Özet satırlarını ele</td><td class="mono">{"TOPLAM", "ORTALAMA"}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note is-sql">
+        <b>Yeni dosya eklemek:</b> aynı sütun düzeniyse registry'ye <b>tek satır</b>.
+        Farklı sütun düzeniyse yeni bir spec + tek satır. Motora ve şemaya hiç dokunulmaz.
+      </div>
+    </div>
+
+    <h3 class="sub is-sql"><span class="dot"></span>Tekrar çalıştırılabilirlik</h3>
+
+    <div class="col stack">
+      <p>Her yazıcının üç sorumluluğu da aynı problemi çözüyor: <strong>notebook ikinci kez çalışınca veri bozulmasın.</strong></p>
+      <ul class="list">
+        <li><strong>FK'yi çöz</strong> — kod gerçekten var mı? Yoksa FK ihlali yerine NULL yazılır, hat durmaz.</li>
+        <li><strong>UPSERT</strong> — aynı TC ikinci kez gelirse yeni satır açılmaz, güncellenir.</li>
+        <li><strong>Çocuk satırları önce sil</strong> — yoksa her çalıştırmada işlem listesi katlanır.</li>
+      </ul>
+      <div class="note">
+        <b>COALESCE detayı:</b> bir kaynak alanı boş bıraktıysa, başka kaynaktan gelen dolu değer silinmez.
+        txt ve xlsx birbirini ezmiyor, <em>tamamlıyor</em>.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 03 — ŞEMA ═══════════════════════ -->
+<section class="band band--tint">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num is-sql">03 — Veritabanı şeması</div>
+      <h2>Varlık mı, olay mı?</h2>
+      <p>Tablolar iki türe ayrılmış. Yeni tablo eklerken sorulan ilk soru bu.</p>
+    </div>
+
+    <!-- ── FIG 5: ER ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 5 — Varlık–ilişki şeması · 6 tablo, 6 yabancı anahtar</div>
+        <svg viewBox="0 0 860 620" role="img" aria-label="ER şeması: subeler, doktorlar, hastalar varlık tabloları; doktor_islemleri, yatislar, hizmetler olay tabloları ve aralarındaki yabancı anahtar ilişkileri">
+          <!-- subeler -->
+          <rect class="db-r" x="320" y="16" width="220" height="88" rx="3"/>
+          <text class="dt-r" x="430" y="40" text-anchor="middle">subeler</text>
+          <text class="dk" x="430" y="58" text-anchor="middle">PK  sube_kodu</text>
+          <text class="ds" x="430" y="76" text-anchor="middle">şube adı, şehir, kapasite, ciro</text>
+          <text class="dk-r" x="430" y="94" text-anchor="middle">VARLIK · 10 SATIR</text>
+
+          <!-- doktorlar -->
+          <rect class="db-r" x="40" y="196" width="250" height="108" rx="3"/>
+          <text class="dt-r" x="165" y="220" text-anchor="middle">doktorlar</text>
+          <text class="dk" x="165" y="238" text-anchor="middle">PK  tc</text>
+          <text class="dk" x="165" y="254" text-anchor="middle">FK  sube_kodu</text>
+          <text class="ds" x="165" y="272" text-anchor="middle">uzmanlık, ünvan, görev yılı</text>
+          <text class="ds" x="165" y="288" text-anchor="middle">izin_hakki / kullanilan / kalan</text>
+          <text class="dk-r" x="165" y="300" text-anchor="middle">VARLIK · 40 SATIR</text>
+
+          <!-- hastalar -->
+          <rect class="db-r" x="580" y="196" width="240" height="92" rx="3"/>
+          <text class="dt-r" x="700" y="220" text-anchor="middle">hastalar</text>
+          <text class="dk" x="700" y="238" text-anchor="middle">PK  tc</text>
+          <text class="ds" x="700" y="256" text-anchor="middle">yaş, cinsiyet, kan grubu</text>
+          <text class="ds" x="700" y="272" text-anchor="middle">şube kodu YOK — kişi şubeye bağlı değil</text>
+          <text class="dk-r" x="700" y="285" text-anchor="middle">VARLIK · 40 SATIR</text>
+
+          <!-- doktor_islemleri -->
+          <rect class="db-s" x="20" y="400" width="230" height="88" rx="3"/>
+          <text class="dt-s" x="135" y="424" text-anchor="middle">doktor_islemleri</text>
+          <text class="dk" x="135" y="442" text-anchor="middle">PK  islem_id (vekil)</text>
+          <text class="dk" x="135" y="458" text-anchor="middle">FK  doktor_tc</text>
+          <text class="ds" x="135" y="476" text-anchor="middle">tarih, işlem</text>
+          <text class="dk-s" x="135" y="484" text-anchor="middle">OLAY · 495 SATIR</text>
+
+          <!-- yatislar -->
+          <rect class="db-s" x="300" y="400" width="250" height="124" rx="3"/>
+          <text class="dt-s" x="425" y="424" text-anchor="middle">yatislar</text>
+          <text class="dk" x="425" y="442" text-anchor="middle">PK  yatis_id (vekil)</text>
+          <text class="dk" x="425" y="458" text-anchor="middle">FK  hasta_tc · doktor_tc · sube_kodu</text>
+          <text class="ds" x="425" y="477" text-anchor="middle">giriş/çıkış, tanı, servis, fatura</text>
+          <text class="dk-w" x="425" y="495" text-anchor="middle">UNIQUE (hasta_tc, giris_tarihi)</text>
+          <text class="dk-s" x="425" y="514" text-anchor="middle">OLAY · 40 SATIR</text>
+
+          <!-- hizmetler -->
+          <rect class="db-s" x="610" y="400" width="230" height="88" rx="3"/>
+          <text class="dt-s" x="725" y="424" text-anchor="middle">hizmetler</text>
+          <text class="dk" x="725" y="442" text-anchor="middle">PK  hizmet_id (vekil)</text>
+          <text class="dk" x="725" y="458" text-anchor="middle">FK  yatis_id</text>
+          <text class="ds" x="725" y="476" text-anchor="middle">sıra, hizmet</text>
+          <text class="dk-s" x="725" y="484" text-anchor="middle">OLAY · 175 SATIR</text>
+
+          <!-- ilişkiler -->
+          <path class="dl" d="M165,196 L165,140 L350,140 L350,104" marker-end="url(#ah)"/>
+          <text class="dk" x="190" y="134">sube_kodu</text>
+
+          <path class="dl" d="M470,400 L470,140 L470,104" marker-end="url(#ah)"/>
+          <text class="dk" x="478" y="180">sube_kodu</text>
+
+          <path class="dl" d="M540,440 L700,440 L700,288" marker-end="url(#ah)"/>
+          <text class="dk" x="590" y="432">hasta_tc</text>
+
+          <path class="dl" d="M310,430 L250,430 L250,340 L200,340 L200,304" marker-end="url(#ah)"/>
+          <text class="dk" x="206" y="332">doktor_tc</text>
+
+          <path class="dl" d="M135,400 L135,304" marker-end="url(#ah)"/>
+          <text class="dk" x="142" y="360">doktor_tc</text>
+
+          <path class="dl" d="M610,462 L550,462" marker-end="url(#ah)"/>
+          <text class="dk" x="558" y="454">yatis_id</text>
+
+          <!-- 1:N işaretleri -->
+          <text class="dk" x="342" y="120">1</text>
+          <text class="dk" x="150" y="188">N</text>
+          <text class="dk" x="452" y="120">1</text>
+          <text class="dk" x="452" y="392">N</text>
+          <text class="dk" x="706" y="300">1</text>
+          <text class="dk" x="548" y="432">N</text>
+          <text class="dk" x="140" y="316">1</text>
+          <text class="dk" x="140" y="392">N</text>
+          <text class="dk" x="558" y="474">1</text>
+          <text class="dk" x="600" y="474">N</text>
+        </svg>
+      </div>
+      <div class="lgnd">
+        <span><i style="background:var(--rag)"></i> VARLIK — kim / ne var · doğal anahtar (TC, şube kodu)</span>
+        <span><i style="background:var(--sql)"></i> OLAY — ne oldu / ne kadar · vekil anahtar</span>
+      </div>
+      <p class="fig-cap">
+        <b>Anahtar politikası:</b> doğal anahtarı olan tabloda vekil anahtar kullanılmaz —
+        TC ulusal kimliktir, <code class="inl">SB01</code> gerçek iş kodudur. Kimliği olmayan olay
+        tablolarında ise vekil anahtar açılır. Dosyalardaki <em>doktor_no / hasta_no</em> sisteme
+        hiç alınmadı: onlar sıra numarasıydı, kimlik değil.
+      </p>
+    </div>
+
+    <div class="col stack" style="margin-top:1.8rem">
+      <div class="box is-warn">
+        <div class="box-t">Şemadaki en kritik satır</div>
+        <p>
+          <code class="inl">UNIQUE (hasta_tc, giris_tarihi)</code> — "aynı hasta birden fazla kez gelebilir"
+          isteğini teknik olarak mümkün kılan şey bu. Anahtar sadece <code class="inl">hasta_tc</code>
+          olsaydı ikinci yatış birincisini <strong>ezerdi</strong>. Hasta bir <em>kişi</em>,
+          yatış bir <em>ziyaret</em>; ikisi ayrı tablolarda.
+        </p>
+      </div>
+    </div>
+
+    <h3 class="sub is-sql"><span class="dot"></span>View'ler: ajanın çalışma yüzeyi</h3>
+
+    <!-- ── FIG 6: view ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 6 — İki view, önceden yapılmış JOIN</div>
+        <svg viewBox="0 0 860 300" role="img" aria-label="View şeması: v_yatis_detay ve v_doktor_ozet hangi tabloları birleştirir">
+          <rect class="db" x="20" y="20" width="150" height="44" rx="3"/>
+          <text class="dt" x="95" y="47" text-anchor="middle">yatislar</text>
+          <rect class="db" x="20" y="76" width="150" height="44" rx="3"/>
+          <text class="dt" x="95" y="103" text-anchor="middle">hastalar</text>
+          <rect class="db" x="20" y="132" width="150" height="44" rx="3"/>
+          <text class="dt" x="95" y="159" text-anchor="middle">doktorlar</text>
+          <rect class="db" x="20" y="188" width="150" height="44" rx="3"/>
+          <text class="dt" x="95" y="215" text-anchor="middle">subeler</text>
+
+          <path class="dl-w" d="M170,42 L250,42 L250,110 L300,110" marker-end="url(#ahw)"/>
+          <path class="dl-w" d="M170,98 L250,98 L250,110"/>
+          <path class="dl-w" d="M170,154 L250,154 L250,110"/>
+          <path class="dl-w" d="M170,210 L250,210 L250,110"/>
+
+          <rect class="db-w" x="300" y="70" width="250" height="80" rx="3"/>
+          <text class="dt" x="425" y="96" text-anchor="middle">v_yatis_detay</text>
+          <text class="ds" x="425" y="116" text-anchor="middle">yatış + hasta + doktor + şube</text>
+          <text class="dk-w" x="425" y="136" text-anchor="middle">TEK SATIRDA · JOIN GEREKMEZ</text>
+
+          <rect class="db-w" x="300" y="180" width="250" height="80" rx="3"/>
+          <text class="dt" x="425" y="206" text-anchor="middle">v_doktor_ozet</text>
+          <text class="ds" x="425" y="226" text-anchor="middle">doktor + şube + hesaplanmış sayaçlar</text>
+          <text class="dk-w" x="425" y="246" text-anchor="middle">islem_sayisi · yatis_sayisi · toplam_ciro</text>
+
+          <path class="dl-w" d="M550,110 L620,110" marker-end="url(#ahw)"/>
+          <path class="dl-w" d="M550,220 L620,220" marker-end="url(#ahw)"/>
+
+          <rect class="db-s" x="620" y="120" width="220" height="90" rx="3"/>
+          <text class="dt-s" x="730" y="150" text-anchor="middle">CodeAgent</text>
+          <text class="ds" x="730" y="170" text-anchor="middle">6 tablo + 6 FK yerine</text>
+          <text class="ds" x="730" y="188" text-anchor="middle">2 düz tabloya bakar</text>
+          <text class="dk-s" x="730" y="204" text-anchor="middle">ÇOK DAHA AZ HATA</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        View'ler kolaylık için değil, <b>model için</b> tasarlandı. Küçük bir dil modeli JOIN koşulunu
+        tahmin etmek zorunda kalmayınca hata oranı belirgin düşüyor. Şema üretilirken view'ler
+        listede <b>önce</b> geliyor ki ajan önce onları denesin.
+      </p>
+    </div>
+
+    <div class="col stack" style="margin-top:1.5rem">
+      <div class="note is-warn">
+        <b>View'lerin sınırı da prompt'ta yazılı:</b> <code class="inl">v_yatis_detay</code> içinde
+        memnuniyet, izin ve ünvan <em>yoktur</em>. Ajana "önce view'lere bak" derken
+        "ama içinde ne olduğunu bilerek bak" da deniyor — aksi halde model olmayan sütunu zorluyor.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 04 — RAG NEDİR ═══════════════════════ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num is-rag">04 — Arka plan</div>
+      <h2>RAG nasıl çalışır?</h2>
+      <p>Kolun mimarisine geçmeden önce yöntemin kendisi.</p>
+    </div>
+
+    <div class="col stack">
+      <p>
+        <strong>RAG (Retrieval-Augmented Generation) = Getir + Üret.</strong>
+        Bir dil modeline eğitimde görmediği belgeler hakkında soru soramazsınız; ya bilmediğini
+        söyler ya uydurur. RAG bunu şöyle çözer: <em>soruyu sormadan önce cevabın geçtiği
+        belge parçalarını bulup modelin önüne koyar.</em>
+      </p>
+      <h4 class="mini">Neden düz metin araması yetmez?</h4>
+      <p>
+        Kullanıcı <em>"kalp doktoru kimler"</em> diye arar, belgede <em>"Kardiyoloji"</em> yazar.
+        Kelime eşleşmesi bulamaz. Çözüm <strong>anlamı sayıya çevirmek</strong>:
+        bir embedding modeli metni yüzlerce boyutlu vektöre çevirir; anlamca yakın metinler
+        bu uzayda birbirine yakın düşer. "kalp doktoru" ile "Kardiyoloji" farklı kelimelerdir
+        ama vektörleri komşudur.
+      </p>
+    </div>
+
+    <!-- ── FIG 7: RAG pipeline ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 7 — RAG'in iki fazı · aynı model her iki tarafta</div>
+        <svg viewBox="0 0 860 470" role="img" aria-label="RAG pipeline: hazırlık fazında belgeler parçalanıp gömülür, sorgu fazında soru gömülüp en yakın parçalar getirilir">
+          <rect class="band-bg" x="10" y="10" width="840" height="170" rx="3"/>
+          <text class="dk-r" x="26" y="34">FAZ 1 — HAZIRLIK (ÇEVRİMDIŞI, BİR KEZ)</text>
+
+          <rect class="db" x="26" y="52" width="132" height="72" rx="3"/>
+          <text class="dt" x="92" y="80" text-anchor="middle">belgeler</text>
+          <text class="ds" x="92" y="100" text-anchor="middle">txt · xlsx · pdf</text>
+          <path class="dl" d="M158,88 L188,88" marker-end="url(#ah)"/>
+
+          <rect class="db" x="190" y="52" width="132" height="72" rx="3"/>
+          <text class="dt" x="256" y="80" text-anchor="middle">ayrıştır</text>
+          <text class="ds" x="256" y="100" text-anchor="middle">metne çevir</text>
+          <path class="dl" d="M322,88 L352,88" marker-end="url(#ah)"/>
+
+          <rect class="db-w" x="354" y="52" width="132" height="72" rx="3"/>
+          <text class="dt" x="420" y="74" text-anchor="middle">parçala</text>
+          <text class="ds" x="420" y="93" text-anchor="middle">satır / blok / pencere</text>
+          <text class="dk-w" x="420" y="111" text-anchor="middle">94 CHUNK</text>
+          <path class="dl" d="M486,88 L516,88" marker-end="url(#ah)"/>
+
+          <rect class="db-r" x="518" y="52" width="146" height="72" rx="3"/>
+          <text class="dt-r" x="591" y="80" text-anchor="middle">bge-m3</text>
+          <text class="ds" x="591" y="100" text-anchor="middle">vektöre çevir</text>
+          <path class="dl" d="M664,88 L694,88" marker-end="url(#ah)"/>
+
+          <rect class="db" x="696" y="52" width="140" height="72" rx="3"/>
+          <text class="dt" x="766" y="80" text-anchor="middle">Chroma</text>
+          <text class="ds" x="766" y="100" text-anchor="middle">indeksle + sakla</text>
+
+          <text class="ds" x="26" y="152">Metadata (dosya, sayfa, satır) chunk metnine YAZILMAZ —</text>
+          <text class="ds" x="26" y="169">embedding'i kirletmesin diye ayrı alanda taşınır.</text>
+
+          <path class="dl-d" d="M591,124 L591,300" marker-end="url(#ah)"/>
+          <text class="dk-r" x="600" y="215">AYNI MODEL</text>
+          <text class="dk-r" x="600" y="230">ŞART</text>
+
+          <rect class="band-bg" x="10" y="256" width="840" height="200" rx="3"/>
+          <text class="dk-r" x="26" y="280">FAZ 2 — SORGU (HER SORUDA)</text>
+
+          <rect class="db-2" x="26" y="300" width="132" height="66" rx="3"/>
+          <text class="dt" x="92" y="330" text-anchor="middle">soru</text>
+          <text class="ds" x="92" y="350" text-anchor="middle">doğal Türkçe</text>
+          <path class="dl" d="M158,333 L188,333" marker-end="url(#ah)"/>
+
+          <rect class="db-r" x="190" y="300" width="132" height="66" rx="3"/>
+          <text class="dt-r" x="256" y="330" text-anchor="middle">bge-m3</text>
+          <text class="ds" x="256" y="350" text-anchor="middle">vektöre çevir</text>
+          <path class="dl" d="M322,333 L352,333" marker-end="url(#ah)"/>
+
+          <rect class="db-r" x="354" y="300" width="146" height="66" rx="3"/>
+          <text class="dt-r" x="427" y="324" text-anchor="middle">en yakın 5</text>
+          <text class="ds" x="427" y="343" text-anchor="middle">kosinüs benzerliği</text>
+          <text class="dk-r" x="427" y="359" text-anchor="middle">TOP_K = 5</text>
+          <path class="dl" d="M500,333 L530,333" marker-end="url(#ah)"/>
+
+          <rect class="db" x="532" y="300" width="146" height="66" rx="3"/>
+          <text class="dt" x="605" y="324" text-anchor="middle">bağlam + prompt</text>
+          <text class="ds" x="605" y="343" text-anchor="middle">kaynak etiketiyle</text>
+          <text class="ds" x="605" y="359" text-anchor="middle">4 kurallı şablon</text>
+          <path class="dl" d="M678,333 L708,333" marker-end="url(#ah)"/>
+
+          <rect class="db-r" x="710" y="300" width="126" height="66" rx="3"/>
+          <text class="dt-r" x="773" y="324" text-anchor="middle">qwen3:8b</text>
+          <text class="ds" x="773" y="343" text-anchor="middle">cevabı üretir</text>
+          <text class="dk-r" x="773" y="359" text-anchor="middle">+ FLAG</text>
+
+          <text class="ds" x="26" y="396">Prompt'un dört kuralı iki hatayı birden hedefler: bağlamda olmayan sayı/isim/tarih uydurmak,</text>
+          <text class="ds" x="26" y="413">ve bilgi dolaylı olduğunda gereksiz yere "bu bilgi bende yok" demek.</text>
+          <text class="ds" x="26" y="437">Model "bu bilgi elimdeki belgelerde yok" derse BİLGİ_BULUNAMADI bayrağı üretilir —</text>
+          <text class="ds" x="26" y="450">makine okunabilir sinyal, loglara düşer.</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        <b>En kritik mimari detay:</b> her iki fazda <b>aynı embedding modeli</b> kullanılmak zorunda.
+        Farklı modeller farklı vektör uzayları üretir; soru vektörü ile chunk vektörleri
+        karşılaştırılamaz hale gelir ve arama sessizce anlamsız sonuç döndürür.
+      </p>
+    </div>
+
+    <div class="col stack" style="margin-top:1.6rem">
+      <div class="box is-rag">
+        <div class="box-t">RAG'in doğal sınırı — ve router'ın varlık sebebi</div>
+        <p>
+          RAG her seferinde yalnızca <strong>K tane parça</strong> getirir (burada 5).
+          <em>"Ortalama yatış süresi kaç gün?"</em> sorusunu doğru cevaplayamaz — 40 yatışın
+          hepsini birden göremez ki. Router tam olarak bunun için var:
+          <strong>kapsam gerektiren soruları SQL'e göndermek.</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 05 — CHUNKING ═══════════════════════ -->
+<section class="band band--tint">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num is-rag">05 — Parçalama</div>
+      <h2>Parçayı nerede keseceğiz?</h2>
+      <p>RAG'in kalitesini en çok belirleyen karar. Notebook tek strateji kullanmıyor.</p>
+    </div>
+
+    <div class="col stack">
+      <p>
+        Parça çok büyükse embedding seyrelir — bir vektör çok fazla konuyu temsil etmeye çalışır.
+        Çok küçükse bağlam kopar. Bu hat, dosya türüne göre <strong>üç farklı strateji</strong> uyguluyor.
+      </p>
+    </div>
+
+    <!-- ── FIG 8: chunking ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 8 — Üç parçalama stratejisi</div>
+        <svg viewBox="0 0 860 290" role="img" aria-label="Üç parçalama stratejisi: txt için ayırıcıya göre blok, excel için satır, pdf için kayan pencere">
+          <!-- TXT -->
+          <text class="dk-r" x="20" y="24">TXT → BLOK</text>
+          <text class="ds" x="20" y="42">iki ayırıcı arası = bir tam kayıt</text>
+          <rect class="db-r" x="20" y="56" width="230" height="40" rx="2"/>
+          <text class="ds" x="135" y="80" text-anchor="middle">Dr. Cengiz Alkan — tam künye</text>
+          <line class="dl" x1="20" y1="104" x2="250" y2="104" stroke-dasharray="4 3"/>
+          <text class="dk" x="135" y="118" text-anchor="middle">-----</text>
+          <rect class="db-r" x="20" y="126" width="230" height="40" rx="2"/>
+          <text class="ds" x="135" y="150" text-anchor="middle">Dr. Selin Batur — tam künye</text>
+          <line class="dl" x1="20" y1="174" x2="250" y2="174" stroke-dasharray="4 3"/>
+          <text class="dk" x="135" y="188" text-anchor="middle">-----</text>
+          <rect class="db-r" x="20" y="196" width="230" height="40" rx="2"/>
+          <text class="ds" x="135" y="220" text-anchor="middle">Dr. Kaan Ergene — tam künye</text>
+          <text class="dk-r" x="135" y="256" text-anchor="middle">43 CHUNK</text>
+          <text class="ds" x="135" y="274" text-anchor="middle">kayıt bütünlüğü korunur</text>
+
+          <!-- XLSX -->
+          <text class="dk-r" x="315" y="24">XLSX → SATIR</text>
+          <text class="ds" x="315" y="42">her satır zaten bir tam kayıt</text>
+          <rect class="db-2" x="315" y="56" width="230" height="26" rx="2"/>
+          <text class="dk" x="430" y="74" text-anchor="middle">TC | Ad | Uzmanlık | Şube | ...</text>
+          <rect class="db-r" x="315" y="86" width="230" height="30" rx="2"/>
+          <text class="ds" x="430" y="106" text-anchor="middle">46926593240 | Cengiz Alkan | ...</text>
+          <rect class="db-r" x="315" y="120" width="230" height="30" rx="2"/>
+          <text class="ds" x="430" y="140" text-anchor="middle">31548720913 | Selin Batur | ...</text>
+          <rect class="db-r" x="315" y="154" width="230" height="30" rx="2"/>
+          <text class="ds" x="430" y="174" text-anchor="middle">70412386554 | Kaan Ergene | ...</text>
+          <rect class="db-r" x="315" y="188" width="230" height="30" rx="2"/>
+          <text class="ds" x="430" y="208" text-anchor="middle">85236914702 | Aslı Gökçe | ...</text>
+          <text class="dk-r" x="430" y="256" text-anchor="middle">51 CHUNK</text>
+          <text class="ds" x="430" y="274" text-anchor="middle">sayfa + satır no metadata'ya</text>
+
+          <!-- PDF -->
+          <text class="dk" x="610" y="24">PDF → PENCERE</text>
+          <text class="ds" x="610" y="42">800 karakter, 150 örtüşme</text>
+          <rect class="db-2" x="610" y="56" width="230" height="180" rx="2"/>
+          <rect class="db-d" x="622" y="68" width="206" height="56" rx="2"/>
+          <text class="ds" x="725" y="100" text-anchor="middle">pencere 1</text>
+          <rect class="db-d" x="622" y="110" width="206" height="56" rx="2"/>
+          <text class="ds" x="725" y="142" text-anchor="middle">pencere 2</text>
+          <rect class="db-d" x="622" y="152" width="206" height="56" rx="2"/>
+          <text class="ds" x="725" y="184" text-anchor="middle">pencere 3</text>
+          <text class="dk-w" x="725" y="224" text-anchor="middle">ÖRTÜŞME → BAĞLAM KOPMASIN</text>
+          <text class="dk" x="725" y="256" text-anchor="middle">0 CHUNK</text>
+          <text class="ds" x="725" y="274" text-anchor="middle">bu veri setinde hiç kullanılmadı</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        <b>Dikkat çekici sonuç:</b> bu veri setinde hiç "pencere" chunk'ı yok. Yani hiçbir kayıt
+        ortadan bölünmemiş — her chunk bir doktorun ya da hastanın <b>tam künyesi</b>.
+        RAG kolunun "tek kayıt" sorularında neden iyi çalıştığını bu açıklıyor.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 06 — ROUTER ═══════════════════════ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num">06 — Yönlendirici</div>
+      <h2>Router karar akışı</h2>
+      <p>Her soruyu LLM'e sormak pahalı ve yavaş. Router üç aşamalı, ucuzdan pahalıya.</p>
+    </div>
+
+    <!-- ── FIG 9: router ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 9 — Karar akışı · ucuz katmanlar önce</div>
+        <svg viewBox="0 0 860 640" role="img" aria-label="Router karar akışı: cache, üç regex kural katmanı, sonra LLM ve normalizasyon">
+          <rect class="db-2" x="230" y="14" width="240" height="44" rx="3"/>
+          <text class="dt" x="350" y="42" text-anchor="middle">soru</text>
+          <path class="dl" d="M350,58 L350,84" marker-end="url(#ah)"/>
+
+          <rect class="db" x="200" y="84" width="300" height="50" rx="3"/>
+          <text class="dt" x="350" y="106" text-anchor="middle">cache'te var mı?</text>
+          <text class="ds" x="350" y="124" text-anchor="middle">normalize edilmiş soru metni anahtar</text>
+          <path class="dl" d="M500,109 L620,109" marker-end="url(#ah)"/>
+          <text class="dk" x="530" y="101">EVET</text>
+          <rect class="db-2" x="620" y="88" width="220" height="42" rx="3"/>
+          <text class="dt" x="730" y="115" text-anchor="middle">etiket · 0.00 sn</text>
+
+          <path class="dl" d="M350,134 L350,160" marker-end="url(#ah)"/>
+          <text class="dk" x="358" y="152">HAYIR</text>
+
+          <!-- kural katmanı kutusu -->
+          <rect class="db-d" x="180" y="158" width="340" height="192" rx="3"/>
+          <text class="dk-w" x="196" y="178">KURAL KATMANI — BEDAVA, DETERMİNİSTİK</text>
+
+          <rect class="db" x="200" y="188" width="300" height="44" rx="3"/>
+          <text class="dt" x="350" y="208" text-anchor="middle">selamlama / kimlik kalıbı?</text>
+          <text class="ds" x="350" y="224" text-anchor="middle">"merhaba", "sen kimsin"</text>
+          <path class="dl" d="M500,210 L620,210" marker-end="url(#ah)"/>
+          <text class="dk" x="530" y="202">EVET</text>
+          <rect class="db-2" x="620" y="190" width="220" height="40" rx="3"/>
+          <text class="dt" x="730" y="215" text-anchor="middle">DIGER</text>
+
+          <path class="dl" d="M350,232 L350,252" marker-end="url(#ah)"/>
+
+          <rect class="db-r" x="200" y="252" width="300" height="44" rx="3"/>
+          <text class="dt-r" x="350" y="272" text-anchor="middle">norm kipi / belge terimi?</text>
+          <text class="ds" x="350" y="288" text-anchor="middle">"olmalıdır", "prosedür", "yönetmelik"</text>
+          <path class="dl-r" d="M500,274 L620,274" marker-end="url(#ahr)"/>
+          <text class="dk-r" x="530" y="266">EVET</text>
+          <rect class="db-r" x="620" y="254" width="220" height="40" rx="3"/>
+          <text class="dt-r" x="730" y="279" text-anchor="middle">RAG</text>
+
+          <path class="dl" d="M350,296 L350,312" marker-end="url(#ah)"/>
+
+          <rect class="db-s" x="200" y="312" width="300" height="44" rx="3"/>
+          <text class="dt-s" x="350" y="332" text-anchor="middle">toplama fiili + gerçekleşmiş kip?</text>
+          <text class="ds" x="350" y="348" text-anchor="middle">"kaç ... var", "toplam ... yaptı"</text>
+          <path class="dl-s" d="M500,334 L620,334" marker-end="url(#ahs)"/>
+          <text class="dk-s" x="530" y="326">EVET</text>
+          <rect class="db-s" x="620" y="314" width="220" height="40" rx="3"/>
+          <text class="dt-s" x="730" y="339" text-anchor="middle">SQL</text>
+
+          <path class="dl" d="M350,364 L350,396" marker-end="url(#ah)"/>
+          <text class="dk" x="358" y="386">HİÇBİRİ</text>
+
+          <rect class="db-w" x="200" y="396" width="300" height="76" rx="3"/>
+          <text class="dt" x="350" y="420" text-anchor="middle">LLM · qwen3:4b-instruct</text>
+          <text class="ds" x="350" y="440" text-anchor="middle">temperature 0 · top_k 1 · seed 42</text>
+          <text class="dk-w" x="350" y="460" text-anchor="middle">YALNIZCA SQL VEYA RAG DÖNDÜREBİLİR</text>
+
+          <path class="dl" d="M350,472 L350,500" marker-end="url(#ah)"/>
+
+          <rect class="db" x="200" y="500" width="300" height="60" rx="3"/>
+          <text class="dt" x="350" y="522" text-anchor="middle">normalize</text>
+          <text class="ds" x="350" y="542" text-anchor="middle">&lt;think&gt; temizle → etiket ara</text>
+
+          <path class="dl" d="M500,530 L620,530" marker-end="url(#ah)"/>
+          <text class="dk" x="514" y="522">BULUNAMADI</text>
+          <rect class="db-d" x="620" y="508" width="220" height="44" rx="3"/>
+          <text class="dt" x="730" y="530" text-anchor="middle">VARSAYILAN = RAG</text>
+          <text class="ds" x="730" y="546" text-anchor="middle">kararsızlıkta güvenli taraf</text>
+
+          <path class="dl" d="M350,560 L350,586" marker-end="url(#ah)"/>
+          <rect class="db-2" x="230" y="586" width="240" height="44" rx="3"/>
+          <text class="dt" x="350" y="614" text-anchor="middle">etiket</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        <b>Sıra bilinçli:</b> <em>"Bir hastaya en fazla kaç gün ilaç yazılabilir?"</em> cümlesinde
+        "en fazla kaç" var — SQL kalıbına uyuyor. Ama "yazılabilir" bir norm kipi, cevap bir kural
+        metninde. RAG kuralı SQL'den önce geldiği için bunu doğru yakalıyor.
+      </p>
+    </div>
+
+    <div class="col stack" style="margin-top:1.6rem">
+      <div class="note">
+        <b>DIGER etiketini yalnızca kural katmanı üretebilir.</b> LLM'e üçüncü seçenek hiç verilmiyor —
+        prompt'ta açıkça "her soru mutlaka SQL ya da RAG'dir" yazıyor. Model kararsız kaldığında
+        kaçacak bir kapı bulamıyor.
+      </div>
+    </div>
+
+    <h3 class="sub"><span class="dot"></span>Prompt'un karar testi</h3>
+
+    <div class="col stack">
+      <p>
+        Prompt'ta kelime listesi yok, <strong>karar testi</strong> var. Tek soru:
+        <em>"cevap için kaç kayda bakmak gerekir?"</em> Örnekler bilerek sınıra yakın seçilmiş —
+        her çift, yanıltıcı bir yüzey benzerliğini kırıyor.
+      </p>
+    </div>
+
+    <div class="tbl-wrap col" style="margin-top:1.1rem">
+      <table>
+        <thead><tr><th>Soru</th><th>Etiket</th><th>Ayrım</th></tr></thead>
+        <tbody>
+          <tr><td>Dr. Ergene'nin kaç gün izni kaldı?</td><td class="t-rag">RAG</td><td rowspan="2">"kaç" var ama kapsam belirler, sayı değil</td></tr>
+          <tr><td>Doktorların ortalama kalan izni kaç gün?</td><td class="t-sql">SQL</td></tr>
+          <tr><td>Dr. Batur'un memnuniyet puanı kaç?</td><td class="t-rag">RAG</td><td rowspan="2">Tek kişi anılıyor ama kıyas isteniyor</td></tr>
+          <tr><td>Dr. Batur en yüksek memnuniyete sahip mi?</td><td class="t-sql">SQL</td></tr>
+          <tr><td>Bir hastaya en fazla kaç gün ilaç yazılabilir?</td><td class="t-rag">RAG</td><td rowspan="2">Fiil kipi: olması gereken vs gerçekleşen</td></tr>
+          <tr><td>Bu ay kaç hastaya ilaç yazıldı?</td><td class="t-sql">SQL</td></tr>
+          <tr><td>Taburcu süreci nasıl yürütülür?</td><td class="t-rag">RAG</td><td rowspan="2">"nasıl" — anlatım mı, küme mi?</td></tr>
+          <tr><td>Doktorların genel performansı nasıl?</td><td class="t-sql">SQL</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 07 — SQL AJANI ═══════════════════════ -->
+<section class="band band--tint">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num is-sql">07 — SQL kolu</div>
+      <h2>Ajan mimarisi</h2>
+      <p>Model SQL yazıyor, çalıştırıyor, sonucu görüyor ve gerekirse kendini düzeltiyor.</p>
+    </div>
+
+    <!-- ── FIG 10: ajan döngüsü ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 10 — Ajan döngüsü · geri besleme mekanizması</div>
+        <svg viewBox="0 0 860 420" role="img" aria-label="SQL ajan döngüsü: görev metni, CodeAgent, iki araç, salt okunur veritabanı ve ValueError geri besleme yolu">
+          <rect class="db-2" x="14" y="90" width="212" height="150" rx="3"/>
+          <text class="dk" x="30" y="112">GÖREV METNİ</text>
+          <text class="ds" x="30" y="136">SISTEM_KURALLARI</text>
+          <text class="ds" x="30" y="154">— sütun seçimi, sayma,</text>
+          <text class="ds" x="30" y="170">&#160;&#160;iki ölçek, view rehberi</text>
+          <text class="ds" x="30" y="192">DB_SEMA (bir kez üretilir)</text>
+          <text class="ds" x="30" y="210">SORU</text>
+          <text class="dk-w" x="30" y="232">~4400 TOKEN, SABİT</text>
+
+          <path class="dl" d="M226,165 L282,165" marker-end="url(#ah)"/>
+
+          <rect class="db-s" x="284" y="120" width="230" height="100" rx="3"/>
+          <text class="dt-s" x="399" y="150" text-anchor="middle">CodeAgent</text>
+          <text class="ds" x="399" y="172" text-anchor="middle">qwen2.5-coder:7b</text>
+          <text class="ds" x="399" y="190" text-anchor="middle">Python yazar, araç çağırır</text>
+          <text class="dk-s" x="399" y="210" text-anchor="middle">max_steps = 20</text>
+
+          <path class="dl" d="M514,150 L580,150 L580,88" marker-end="url(#ah)"/>
+          <path class="dl" d="M514,190 L580,190 L580,232" marker-end="url(#ah)"/>
+
+          <rect class="db" x="580" y="42" width="260" height="66" rx="3"/>
+          <text class="dt" x="710" y="66" text-anchor="middle">get_db_schema()</text>
+          <text class="ds" x="710" y="86" text-anchor="middle">view'ler + sütun anlamları + FK'ler</text>
+          <text class="ds" x="710" y="102" text-anchor="middle">+ metin sütunlarının gerçek değerleri</text>
+
+          <rect class="db" x="580" y="232" width="260" height="66" rx="3"/>
+          <text class="dt" x="710" y="256" text-anchor="middle">run_sql_query(sql)</text>
+          <text class="ds" x="710" y="276" text-anchor="middle">sözlük listesi döner, metin değil</text>
+          <text class="ds" x="710" y="292" text-anchor="middle">→ result[0]['sutun'] ile değer alınır</text>
+
+          <path class="dl" d="M710,298 L710,330" marker-end="url(#ah)"/>
+          <rect class="db-s" x="580" y="330" width="260" height="60" rx="3"/>
+          <text class="dt-s" x="710" y="354" text-anchor="middle">SQLite · mode=ro</text>
+          <text class="ds" x="710" y="374" text-anchor="middle">yazma bağlantı düzeyinde reddedilir</text>
+
+          <path class="dl-w" d="M580,266 L546,266 L546,300 L399,300 L399,224" marker-end="url(#ahw)"/>
+          <rect class="db-w" x="252" y="318" width="290" height="66" rx="3"/>
+          <text class="dt" x="397" y="342" text-anchor="middle">_sonuc_denetimi()</text>
+          <text class="ds" x="397" y="362" text-anchor="middle">0 satır döndü? anlamsız GROUP BY?</text>
+          <text class="dk-w" x="397" y="378" text-anchor="middle">→ ValueError → AJAN KENDİNİ DÜZELTİR</text>
+          <path class="dl-w" d="M397,318 L397,300"/>
+
+          <path class="dl-s" d="M340,220 L340,270 L120,270 L120,300" marker-end="url(#ahs)"/>
+          <rect class="db-s" x="14" y="300" width="212" height="52" rx="3"/>
+          <text class="dt-s" x="120" y="324" text-anchor="middle">final_answer()</text>
+          <text class="ds" x="120" y="342" text-anchor="middle">çağrılmadan görev bitmez</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        <b>Ajanın elinde yalnızca iki araç var.</b> Veritabanı bağlantısı salt okunur —
+        "sadece SELECT yaz" kuralına güvenilmiyor, yazma bağlantı düzeyinde reddediliyor.
+        Prompt'a güvenmek yerine mekanizmayla garanti altına almak, bu projede tekrar eden bir kalıp.
+      </p>
+    </div>
+
+    <h3 class="sub is-sql"><span class="dot"></span>Şemayı zenginleştirmek</h3>
+
+    <div class="col stack">
+      <p>
+        Ham şema modele yalnızca <code class="inl">ad (tip)</code> verir. Bu yetmiyor:
+        model doğal dildeki niteliği ("tecrübeli", "verimli", "yıllık izin") bir sütuna bağlayamayınca
+        <strong>en görünür sayısal sütuna kayıyor</strong>. İki gözlenmiş vaka:
+      </p>
+    </div>
+
+    <div class="fails col" style="margin-top:1.1rem">
+      <div class="fail">
+        <div class="fn">01</div>
+        <div class="fq">"Tecrübeli doktorlar"</div>
+        <div class="fw">Model <code class="inl">islem_sayisi</code> kullandı — oysa tecrübe <code class="inl">gorev_yil</code>. Notebook'ta not düşülmüş: iki sütun arasındaki korelasyon <strong>r = −0.12</strong>, neredeyse ilgisiz.</div>
+        <div class="ff">Geçerli SQL üretti, hata vermedi, <b>sessizce yanlış cevapladı.</b></div>
+      </div>
+      <div class="fail">
+        <div class="fn">02</div>
+        <div class="fq">"Yıllık izni en fazla olan"</div>
+        <div class="fw">Model <code class="inl">haftalik_nobet * 52</code> hesapladı — nöbeti izne çevirdi. Doğrusu <code class="inl">izin_kalan</code>.</div>
+        <div class="ff">Kuralı düz yazıda anlatmak <b>yetmedi</b>; izin kuralı prompt'ta zaten yazılıydı.</div>
+      </div>
+    </div>
+
+    <div class="col stack" style="margin-top:1.4rem">
+      <p>
+        Çözüm mimari: kuralı prompt'un başında tekrar etmek yerine
+        <strong>açıklamayı sütunun tam yanına taşımak.</strong>
+      </p>
+    </div>
+
+    <div class="code col" style="margin-top:1rem">
+      <div class="code-cap"><span>Şema satırı — önce / sonra</span><span class="where">tek fark, bütün etkisi</span></div>
+      <pre><code><span class="c"># ÖNCE — model "tecrübe" ile hangi sütunu eşleştireceğini bilmiyor</span>
+  gorev_yil (INTEGER)
+  toplam_islem (INTEGER)
+
+<span class="c"># SONRA — açıklama sütunun yanında</span>
+  gorev_yil (INTEGER)      <span class="s">-- KAÇ YILDIR görevde = TECRÜBE / KIDEM ölçüsü</span>
+  toplam_islem (INTEGER)   <span class="s">-- yapılan işlem ADEDİ = İŞ HACMİ. Tecrübe DEĞİL</span>
+  haftalik_nobet (INTEGER) <span class="s">-- haftalık NÖBET sayısı. İZİN DEĞİL, 52 ile çarpma</span></code></pre>
+    </div>
+
+    <h4 class="mini">Türkçe harf problemi</h4>
+
+    <div class="col stack">
+      <p>
+        SQLite'ın büyük/küçük harf eşitliği <strong>yalnızca ASCII içindir</strong>.
+        Kullanıcı "üroloji" yazınca model <code class="inl">LIKE '%uroloji%'</code> üretiyor,
+        <strong>0 satır</strong> dönüyor — veri <code class="inl">'Üroloji'</code>.
+        Çözüm iki katmanlı:
+      </p>
+      <ol class="list">
+        <li><strong>Önleme</strong> — düşük kardinaliteli sütunların gerçek değerleri şemanın sonuna eklendi. Model tahmin etmiyor, listeden kopyalıyor.</li>
+        <li><strong>Yakalama</strong> — yine de yanlış yazarsa, 0 satır dönen sorgunun filtresi yazım indeksiyle karşılaştırılıyor ve ajana <code class="inl">ValueError</code> fırlatılıyor.</li>
+      </ol>
+      <div class="note is-sql">
+        İkinci katman neden gerekli? Çünkü <b>değer listesi prompt'ta olmasına rağmen</b> model
+        bazen yine harfi düşürüyordu. Prompt'a bir kural daha eklemek yerine problem
+        mekanizma seviyesinde çözüldü — model kuralı görmezden gelebilir, <code class="inl">ValueError</code>'ı göremezden gelemez.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 08 — İSTEK YAŞAM DÖNGÜSÜ ═══════════════════════ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num">08 — Uçtan uca</div>
+      <h2>Bir isteğin yaşam döngüsü</h2>
+      <p>Arayüzden gelen tek bir sorunun bütün katmanlardan geçişi.</p>
+    </div>
+
+    <!-- ── FIG 11: sequence ── -->
+    <div class="fig">
+      <div class="fig-box">
+        <div class="fig-ttl">Şekil 11 — Sıra diyagramı · SQL etiketli bir soru örneği</div>
+        <svg viewBox="0 0 860 470" role="img" aria-label="Sıra diyagramı: Flutter arayüzünden FastAPI'ye, oradan router ve SQL ajanına, sonuç loglanıp geri döner">
+          <rect class="db-2" x="14" y="14" width="130" height="40" rx="3"/>
+          <text class="dt" x="79" y="39" text-anchor="middle">Flutter</text>
+          <line class="dl-d" x1="79" y1="54" x2="79" y2="440"/>
+
+          <rect class="db-2" x="180" y="14" width="130" height="40" rx="3"/>
+          <text class="dt" x="245" y="39" text-anchor="middle">FastAPI</text>
+          <line class="dl-d" x1="245" y1="54" x2="245" y2="440"/>
+
+          <rect class="db-w" x="350" y="14" width="130" height="40" rx="3"/>
+          <text class="dt" x="415" y="39" text-anchor="middle">route()</text>
+          <line class="dl-d" x1="415" y1="54" x2="415" y2="440"/>
+
+          <rect class="db-s" x="520" y="14" width="150" height="40" rx="3"/>
+          <text class="dt-s" x="595" y="39" text-anchor="middle">sql_cevapla</text>
+          <line class="dl-d" x1="595" y1="54" x2="595" y2="440"/>
+
+          <rect class="db-2" x="710" y="14" width="136" height="40" rx="3"/>
+          <text class="dt" x="778" y="39" text-anchor="middle">logger</text>
+          <line class="dl-d" x1="778" y1="54" x2="778" y2="440"/>
+
+          <path class="dl" d="M79,92 L240,92" marker-end="url(#ah)"/>
+          <text class="ds" x="86" y="86">POST /sor {"soru": "..."}</text>
+
+          <path class="dl" d="M245,132 L410,132" marker-end="url(#ah)"/>
+          <text class="ds" x="252" y="126">route(soru, ayrinti=True)</text>
+
+          <path class="dl-w" d="M415,172 L250,172" marker-end="url(#ahw)"/>
+          <text class="ds" x="258" y="166">etiket = "SQL" · kaynak = "kural" · 0.00 sn</text>
+
+          <path class="dl-s" d="M245,212 L590,212" marker-end="url(#ahs)"/>
+          <text class="ds" x="252" y="206">sql_cevapla(soru)</text>
+
+          <path class="dl-s" d="M600,240 L660,240 L660,268 L600,268" marker-end="url(#ahs)"/>
+          <text class="ds" x="612" y="234">şema oku → SQL yaz → çalıştır → doğrula</text>
+          <text class="dk-w" x="600" y="290">HATA: ValueError → tekrar dene</text>
+
+          <path class="dl-s" d="M595,320 L250,320" marker-end="url(#ahs)"/>
+          <text class="ds" x="258" y="314">[{'ad_soyad': 'Cengiz Alkan', 'gorev_yil': 23}, ...]</text>
+
+          <path class="dl" d="M245,352 L245,352" />
+          <rect class="db-2" x="196" y="336" width="100" height="30" rx="3"/>
+          <text class="dk" x="246" y="356" text-anchor="middle">_format_cevap</text>
+
+          <path class="dl" d="M245,392 L773,392" marker-end="url(#ah)"/>
+          <text class="ds" x="252" y="386">log_sorgu(soru, etiket, cevap, süre) → fsync</text>
+
+          <path class="dl" d="M245,428 L84,428" marker-end="url(#ah)"/>
+          <text class="ds" x="92" y="422">{"etiket": "SQL", "cevap": "1. ad_soyad: ...", "hata": null}</text>
+        </svg>
+      </div>
+      <p class="fig-cap">
+        <b>Hata durumunda da aynı yol işler:</b> istisna yakalanır, hangi aşamada olduğu
+        (<code class="inl">ROUTER</code> / <code class="inl">SQL_AGENT</code> / <code class="inl">RAG_SEARCH</code>)
+        loglanır ve arayüze <code class="inl">hata</code> alanıyla döner — istek asla sessizce düşmez.
+      </p>
+    </div>
+
+    <div class="col stack" style="margin-top:1.6rem">
+      <h4 class="mini">Üç model, üç görev</h4>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Görev</th><th>Model</th><th>Seçim gerekçesi</th></tr></thead>
+          <tbody>
+            <tr><td>Yönlendirme</td><td class="mono">qwen3:4b-instruct</td><td>Küçük ve hızlı. <strong>Düşünmeyen</strong> model şart — tek kelime cevap isteniyor</td></tr>
+            <tr><td class="t-sql">SQL ajanı</td><td class="mono">qwen2.5-coder:7b</td><td>Kod modeli. CodeAgent burada Python/SQL yazıyor</td></tr>
+            <tr><td class="t-rag">RAG cevabı</td><td class="mono">qwen3:8b</td><td>Doğal dil üretimi, Türkçe akıcılık</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note is-warn">
+        <b>Bağlam penceresi tuzağı:</b> Ollama'nın varsayılanı 4096 token. Görev metni
+        (kurallar + şema + değer listesi) tek başına ~4400. 4096'da prompt <b>baştan sessizce kırpılır</b> —
+        önce kurallar, sonra şema düşer ve model bunu haber vermez. Bu yüzden
+        <code class="inl">num_ctx = 12288</code> açıkça veriliyor.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 09 — ÇIKTILAR ═══════════════════════ -->
+<section class="band band--tint">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num">09 — Çıktılar</div>
+      <h2>Üretilen dosyalar</h2>
+      <p>Üç notebook'un diskte bıraktığı dört kalıcı çıktı.</p>
+    </div>
+
+    <div class="files">
+      <div class="file" data-arm="sql">
+        <span class="fname">hastane_v2.db</span>
+        <span class="fmeta">SQLite · 128 KB · create_sqlDB</span>
+        <span class="fdesc">6 tablo + 2 view, 800 satır. Çalışma zamanında salt okunur açılır.
+        8 doğrulama kontrolünden geçmeden "hazır" sayılmaz.</span>
+      </div>
+      <div class="file" data-arm="rag">
+        <span class="fname">chunks.jsonl</span>
+        <span class="fmeta">JSON Lines · 81 KB · 94 satır</span>
+        <span class="fdesc">Vektöre çevrilen parçaların okunabilir hali. Vektör deposu ikili dosyadır;
+        bu, "modele tam olarak ne verdik" sorusunun gözle kontrol edilebilir cevabı.</span>
+      </div>
+      <div class="file" data-arm="rag">
+        <span class="fname">vector_db/</span>
+        <span class="fmeta">Chroma · ~2.4 MB · kosinüs</span>
+        <span class="fdesc">chroma.sqlite3 + HNSW indeks dosyaları. 94 chunk'ın bge-m3 vektörleri
+        ve metadata'ları.</span>
+      </div>
+      <div class="file">
+        <span class="fname">sorgu_loglari.jsonl<br>sorgu_loglari.log</span>
+        <span class="fmeta">Log · 41 kayıt · query_logger</span>
+        <span class="fdesc">Aynı veri iki biçimde: makine için JSONL, insan için okunabilir metin.
+        Her istekte <code class="inl">fsync</code> ile diske basılır — çökme anında kaybolmasın.</span>
+      </div>
+    </div>
+
+    <h3 class="sub"><span class="dot"></span>Loglardan çıkan ölçümler</h3>
+
+    <div class="facts col" style="margin-top:.6rem">
+      <div class="fact"><dt>Toplam sorgu</dt><dd>41</dd></div>
+      <div class="fact"><dt>Başarılı</dt><dd>34 <small>%83</small></dd></div>
+      <div class="fact"><dt>RAG / SQL</dt><dd>18 / 12</dd></div>
+      <div class="fact"><dt>Ortalama süre</dt><dd>121 <small>saniye</small></dd></div>
+    </div>
+
+    <div class="col stack" style="margin-top:1.3rem">
+      <div class="note is-warn">
+        <b>Süre neden yüksek?</b> Üç model 4 GB VRAM'i paylaşıyor; kol değiştiğinde Ollama
+        modeli diskten yeniden yüklüyor. En uzun kayıt 639 saniye — neredeyse tamamı model
+        yükleme. Router'ın kural katmanı tam da bunu azaltmak için var: yakalanan soru
+        <b>0 saniyede</b> etiketleniyor, hiç LLM'e gitmiyor.
+      </div>
+    </div>
+
+    <h3 class="sub is-sql"><span class="dot"></span>Test setindeki tuzaklar</h3>
+
+    <div class="tbl-wrap col" style="margin-top:.6rem">
+      <table>
+        <thead><tr><th>Tuzak soru</th><th>Neyi test ediyor</th></tr></thead>
+        <tbody>
+          <tr><td>Üroloji uzmanı doktorlar kaç yatış takip etti?</td><td>Türkçe harf — "Uroloji" yazarsa 0 döner</td></tr>
+          <tr><td>Dermatoloji uzmanı kaç doktor var?</td><td>Kısmi yazım — gerçek değer <code class="inl">'Dermatoloji (Cilt Hastalıkları)'</code></td></tr>
+          <tr><td>En sık görülen tanı nedir?</td><td><strong>Cevaplanamaz.</strong> 40 yatış, 40 farklı tanı. Model sayı uydurmamalı, durumu söylemeli</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 10 — SONUÇ ═══════════════════════ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head col">
+      <div class="sec-num">10 — Sonuç</div>
+      <h2>Projenin ana fikri</h2>
+    </div>
+
+    <div class="col stack">
+      <p>
+        Bu mimaride tekrar eden tek bir kalıp var, dört ayrı yerde:
+        <strong>modelden doğru davranmasını istemek yerine, yanlış davranmasını imkânsız kılmak.</strong>
+      </p>
+      <ul class="list" style="margin-top:.4rem">
+        <li><strong>Salt okunur bağlantı</strong> — "sadece SELECT yaz" kuralına güvenilmiyor, yazma bağlantı düzeyinde reddediliyor.</li>
+        <li><strong>Şemaya gömülü açıklama</strong> — kural prompt'un başında tekrarlanmıyor, bilgi ihtiyaç duyulduğu yere taşınıyor.</li>
+        <li><strong>ValueError ile geri besleme</strong> — sessiz yanlış cevap, ajanın görmek zorunda olduğu gürültülü bir hataya çevriliyor.</li>
+        <li><strong>Router'ın seçenek kümesi</strong> — LLM'e "iyi karar ver" denmiyor; seçenek ikiye indiriliyor, kesin durumlar hiç LLM'e gitmiyor, anlaşılmaz cevap deterministik bir varsayılana düşüyor.</li>
+      </ul>
+      <div class="box" style="margin-top:.8rem">
+        <div class="box-t">Tek cümleyle</div>
+        <p>
+          Aynı hastane verisi iki kez, iki farklı amaç için hazırlanıyor —
+          biri <span class="t-sql">sayılmak</span>, diğeri <span class="t-rag">okunmak</span> için.
+          Gelen soru hangisini gerektiriyorsa oraya gidiyor.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="end">
+  <div class="wrap col stack">
+    <p style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)">
+      memorial_rag+sql
+    </p>
+    <p>
+      create_sqlDB.ipynb · create_raq_vectorDB.ipynb · query.ipynb<br>
+      hastane_v2.db · chunks.jsonl · vector_db/ · sorgu_loglari.jsonl
+    </p>
+  </div>
+</footer>
+</body>
+</html>
